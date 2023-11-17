@@ -1,0 +1,29 @@
+package com.laptrinhjavaweb.utils;
+
+import javax.servlet.http.HttpServletRequest;
+
+public class SessionUtil {
+	
+	// để tránh new nhiều đối tượng giống nhau 
+	// mà 1 đối tượng có thể sử dụng lại nhiều lần: 
+	// (đây là một dạng design pattern)
+	private static SessionUtil sessionUtil = null;
+	public static SessionUtil getInstance(){
+		if(sessionUtil == null) {
+			sessionUtil = new SessionUtil();
+		}
+		return sessionUtil;
+	}
+	
+	public void putValue(HttpServletRequest req, String key, Object value) {
+		req.getSession().setAttribute(key, value);
+	}
+	
+	public Object getValue(HttpServletRequest req, String key) {
+		return null;
+	}
+	
+	public void reValue() {
+		
+	}
+}

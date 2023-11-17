@@ -1,0 +1,35 @@
+package com.laptrinhjavaweb.dao.impl;
+
+import java.util.List;
+
+import com.laptrinhjavaweb.dao.IUserDAO;
+import com.laptrinhjavaweb.mapper.RowMapper;
+import com.laptrinhjavaweb.model.UserModel;
+
+public class UserDAO extends AbstractDAO<UserModel> implements IUserDAO {
+
+	@Override
+	public List<UserModel> query(String sql, RowMapper<UserModel> rowMapper, Object... parameters) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(String sql, Object... parameters) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Long insert(String sql, Object... parameters) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int count(String sql, Object... parameters) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

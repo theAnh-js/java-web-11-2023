@@ -1,0 +1,34 @@
+1699757102270	Copy files
+1699757117213	Rename resource 'mune.jsp'
+1699758777925	Rename resource 'shop-homepage.css'
+1699765325264	Delete element
+1699765340329	Delete element
+1699765349930	Delete element
+1699770428096	Copy package
+1699770436045	Delete element
+1699772472340	Rename type 'NewService'
+1699804433500	Rename type 'CatetoryDAO'
+1699804480416	Rename type 'ICatetoryDAO'
+1699804491010	Rename type 'CatetoryDAO'
+1699979262941	Rename resource 'new'
+1699981393945	Move 'jquery.twbsPagination.js' to 'paging'
+1699981397516	Move 'jquery.twbsPagination.min.js' to 'paging'
+1700025207694	Encapsulate field 'page'
+1700025278081	Encapsulate field 'maxPageItem'
+1700025305869	Encapsulate field 'totalPage'
+1700029165900	Encapsulate field 'totalItem'
+1700066388921	Encapsulate field 'page'
+1700066393292	Encapsulate field 'maxPageItem'
+1700066396672	Encapsulate field 'totalPage'
+1700066399951	Encapsulate field 'totalItem'
+1700080403405	Copy compilation unit
+1700084714594	Encapsulate field 'sortName'
+1700084718444	Encapsulate field 'sortBy'
+1700086210720	Delete element
+1700086218782	Rename type 'PageRequest'
+1700110869258	Encapsulate field 'sorter'
+1700139890442	Copy compilation unit
+1700139927645	Rename type 'IUserDAO2'
+1700141111327	Copy compilation unit
+1700141677509	Copy compilation unit
+1700142004816	Encapsulate field 'role'

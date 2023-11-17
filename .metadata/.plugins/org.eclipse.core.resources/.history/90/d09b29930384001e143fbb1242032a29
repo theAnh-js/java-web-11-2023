@@ -1,0 +1,9 @@
+package com.laptrinhjavaweb.paging;
+
+public interface PageRequest {
+
+	Integer getPage();  //lấy page đăng đứng, cũng như page nếu được click vào
+	Integer getOffset();
+	Integer getLimit();
+	
+}

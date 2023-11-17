@@ -1,0 +1,19 @@
+package com.laptrinhjavaweb.utils;
+
+public class SessionUtil {
+	
+	private static SessionUtil sessionUtil = null;
+	
+	
+	public void putValue() {
+		
+	}
+	
+	public Object getValue() {
+		return null;
+	}
+	
+	public void reValue() {
+		
+	}
+}

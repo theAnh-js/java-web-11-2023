@@ -1,0 +1,50 @@
+package com.laptrinhjavaweb.controller.admin;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.beanutils.BeanUtils;
+
+import com.laptrinhjavaweb.constant.SystemConstant;
+import com.laptrinhjavaweb.model.NewsModel;
+import com.laptrinhjavaweb.service.INewsService;
+import com.laptrinhjavaweb.service.impl.NewsService;
+import com.laptrinhjavaweb.utils.FormUtil;
+
+@WebServlet(urlPatterns = { "/admin-news" })
+public class NewsController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	INewsService newsService = new NewsService();
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// Xem bên class NewsControllerNotRefactor để hiểu hơn các dòng code
+		// và biết được chỗ nào được refactor.
+		NewsModel news = null;
+		try {
+			news = FormUtil.toModel(NewsModel.class, req);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+			
+		Integer offset = news.getMaxPageItem() * (news.getPage() - 1);
+		news.setList(newsService.findAll(offset, news.getMaxPageItem()));
+		news.setTotalItem(newsService.getTotalItem()); 
+		news.setTotalPage((int) Math.ceil((double) news.getTotalItem() / news.getMaxPageItem()));
+		
+		req.setAttribute(SystemConstant.MODEL, news);
+		
+		RequestDispatcher rd = req.getRequestDispatcher("/views/admin/news/list.jsp");
+		rd.forward(req, resp);
+	}
+
+}

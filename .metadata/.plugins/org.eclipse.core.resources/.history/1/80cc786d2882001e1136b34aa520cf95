@@ -1,0 +1,23 @@
+package com.laptrinhjavaweb.utils;
+
+import java.io.BufferedReader;
+
+public class HttpUtil {
+
+	private String value;
+	
+	public HttpUtil() {
+		
+	}
+	
+	public static HttpUtil of(BufferedReader bufferedReader) {
+		
+	    StringBuilder sb = new StringBuilder();
+	    String line;
+	    while ((line = bufferedReader.readLine()) != null) {
+	        sb.append(line);
+	    }
+	    JSONObject json = new JSONObject(sb.toString());
+		return new HttpUtil();
+	}
+}
