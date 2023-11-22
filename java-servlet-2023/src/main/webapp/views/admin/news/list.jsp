@@ -44,14 +44,20 @@ tr:nth-child(even) {
 để lấy ra list các bài viết tiếp theo, cụ thể ở đây là controller admin-news.
 Do đó, ta cần tạo 1 form để submit và action đến controller.
  -->
-	<form action="<c:url value='/admin-new'/>" id="formSubmit" method="get">
+	<form action="<c:url value='/admin-news'/>" id="formSubmit" method="get">
 		<div class="container">
 			<h1>Danh sách bài viết</h1>
 			<p>(tui add được quả Plugin phân trang vào ròi đó)</p>
+			
+			<h2><a title="Thêm bài viết" href='<c:url value="/admin-news?type=edit" />'>ADD</a></h2>
+			<button title="Thêm bài viết" id="btnDelete" type="button">DELETE</button>
+			
+			<h2></h2>
 			<table>
 				<tr>
 					<th>Tên bài viết</th>
 					<th>Mô tả ngắn</th>
+					<th>Thao tác</th>
 				</tr>
 				<!-- model ở đây là key được truyền từ controller qua,
 			cụ thể ở đây là 1 model - NewsModel. Mà NewsModel lại kế thừa
@@ -61,6 +67,17 @@ Do đó, ta cần tạo 1 form để submit và action đến controller.
 					<tr>
 						<td>${item.title}</td>
 						<td>${item.shortDescription}</td>
+						<td>
+							<!-- thay vì phải viết href='<c:url value="/admin-news?type=edit&id=${item.id}"/>', 
+							thì ta viết: -->
+							<c:url var="editUrl" value="/admin-news">
+								<c:param name="type" value="edit"/>
+								<c:param name="id" value="${item.id}"/>
+							</c:url>
+							<a title="Cập nhật bài viết" 
+							   href='${editUrl}'>
+							   EDIT</a>
+						 </td>
 					</tr>
 				</c:forEach>
 
@@ -72,6 +89,7 @@ Do đó, ta cần tạo 1 form để submit và action đến controller.
 					type="hidden" value="" id="maxPageItem" name="maxPageItem" /> <input
 					type="hidden" value="" id="sortName" name="sortName" /> <input
 					type="hidden" value="" id="sortBy" name="sortBy" />
+					<input type="hidden" value="" id="type" name="type">
 			</nav>
 		</div>
 	</form>
@@ -91,6 +109,7 @@ Do đó, ta cần tạo 1 form để submit và action đến controller.
 						$('#page').val(page); //set giá trị của page hiện tại vào input có  id="page" và name="page"
 						$('#sortName').val('title');
 						$('#sortBy').val('desc');
+						$('#type').val('list');
 						$('#formSubmit').submit(); // khi click thì ta gọi vào form, và dùng hàm submit() để submit		
 					}
 				}

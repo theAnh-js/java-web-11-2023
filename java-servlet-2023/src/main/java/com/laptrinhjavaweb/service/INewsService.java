@@ -20,4 +20,6 @@ public interface INewsService {
 	List<NewsModel> findAll(Pageble pageble);
 
 	int getTotalItem();
+	
+	NewsModel findOne(long id);
 }

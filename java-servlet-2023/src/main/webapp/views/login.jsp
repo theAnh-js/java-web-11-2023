@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@include file="/common/taglib.jsp" %>	
-	
-	
+<%@include file="/common/taglib.jsp"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +30,7 @@
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
 	crossorigin="anonymous">
-	
+
 <style>
 
 /* Made with love by Mutiullah Samim*/
@@ -124,6 +124,7 @@ input:focus {
 </head>
 <body>
 	<div class="container">
+
 		<div class="d-flex justify-content-center h-100">
 			<div class="card">
 				<div class="card-header">
@@ -135,27 +136,31 @@ input:focus {
 					</div>
 				</div>
 				<div class="card-body">
-				
-				<!-- Khi bấm login thì form sẽ được chuyển đến url servlet '/dang-nhap'/ trong action.
+					<c:if test="${not empty message }">
+						<div class="alert alert-${alert}" role="alert">${message}</div>
+					</c:if>
+
+					<!-- Khi bấm login thì form sẽ được chuyển đến url servlet '/dang-nhap'/ trong action.
 				-> Thông qua <input type="hidden" value="login" name="action">, ta lấy được parameter action=login
 				bên '/dang-nhap'/ servlet trong phương thực doPost vì method form là post.
 				-> Vào doPost: check authentication user có username, password có tồn tại trong database không.
 				-> Nếu không có(null) -> chuyển về login.
 				-> Nếu có -> lấy ra thông tin user đó, rồi getSession, rồi check xem user đố là USER hay ADMIN
 				-> là USER -> đến /trang-chu
-				-> là ADMIN -> đến /admin-home
-				
-				 -->
-					<form action="<c:url value='/dang-nhap'/>" id="formLogin" method="post">
-					
+				-> là ADMIN -> đến /admin-home			 -->
+
+					<form action="<c:url value='/dang-nhap'/>" id="formLogin"
+						method="post">
+
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" class="form-control" placeholder="username" name="userName">
+							<input type="text" class="form-control" placeholder="username"
+								name="userName">
 
 						</div>
-						
+
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -163,7 +168,7 @@ input:focus {
 							<input type="password" class="form-control"
 								placeholder="password" name="password">
 						</div>
-						
+
 						<div class="row align-items-center remember">
 							<input type="checkbox">Remember Me
 						</div>

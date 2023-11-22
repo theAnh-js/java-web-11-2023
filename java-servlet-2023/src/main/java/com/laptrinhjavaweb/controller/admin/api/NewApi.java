@@ -45,6 +45,7 @@ public class NewApi extends HttpServlet {
 		// NewsModel.class là kiểu đối tượng mà ta muốn chuyển đổi dữ liệu JSON thành.
 
 		// lưu model xuống database
+		
 		newsModel = newService.save(newsModel);
 
 		// ===== chuyển từ model sang json để thằng server trả về cho client =====

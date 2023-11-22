@@ -1,6 +1,7 @@
 package com.laptrinhjavaweb.controller.web;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,6 +24,7 @@ public class HomeController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	ResourceBundle resourceBundle = ResourceBundle.getBundle("message");
 	// @Inject
 	private ICategoryService categoryService = new CategoryService();
 	private INewsService newsService = new NewsService();
@@ -33,6 +35,15 @@ public class HomeController extends HttpServlet {
 
 		String action = req.getParameter("action");
 		if (action != null && action.equals("login")) {
+			
+			// hiện alert cùng message thông báo
+			String message = req.getParameter("message");
+			String alert = req.getParameter("alert");
+			if(message != null && alert != null) {
+				req.setAttribute("message", resourceBundle.getString(message));
+				req.setAttribute("alert", alert);
+			}
+			
 			// RequesetDispatcher.forward -> trả về tài nguyên một cách ngầm, ko hiện lên url
 			RequestDispatcher rd = req.getRequestDispatcher("/views/login.jsp");
 			rd.forward(req, resp);
@@ -66,7 +77,9 @@ public class HomeController extends HttpServlet {
 			user = userService.findByUserNameAndPasswordAndStatus(user.getUserName(), user.getPassword(), 0);
 			
 			if (user != null) {		
+				
 				SessionUtil.getInstance().putValue(req, "user", user);
+				
 				if (user.getRole().getCode().equals("USER")) {
 					resp.sendRedirect(req.getContextPath() + "/trang-chu");
 				} else if (user.getRole().getCode().equals("ADMIN")) {
@@ -74,7 +87,10 @@ public class HomeController extends HttpServlet {
 				}
 				
 			} else {
-				resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login");
+				// nếu không tìm thấy user trong hệ thống(authentication thất bại)
+				// send đến url bên dưới với các tham số đó
+				// vì là url nên nó sẽ đi vào /dang-nhap và vào hàm doGet ở trên.
+				resp.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&message=username_password_invalid&alert=danger");
 			}
 		}
 	}
