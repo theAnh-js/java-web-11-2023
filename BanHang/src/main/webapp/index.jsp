@@ -6,4 +6,4 @@
 nghĩa trong file pom.xml rồi.
 Khi vào đây thì nó sẽ chuyển hướng luôn đến file home.jsp -->
 
-<c:redirect url="/home.jsp"></c:redirect>
+<c:redirect url="/home"></c:redirect>

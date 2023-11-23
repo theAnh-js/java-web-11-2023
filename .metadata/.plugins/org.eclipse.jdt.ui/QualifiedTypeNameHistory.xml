@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.net.http.HttpClient"/>
-    <fullyQualifiedTypeName name="java.io.BufferedReader"/>
     <fullyQualifiedTypeName name="java.lang.StringBuffer"/>
     <fullyQualifiedTypeName name="org.codehaus.jackson.map.util.JSONPObject"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.util.JSONPObject"/>
@@ -45,19 +43,21 @@
     <fullyQualifiedTypeName name="java.sql.DriverManager"/>
     <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="com.fuku.controller.HomeController"/>
-    <fullyQualifiedTypeName name="java.sql.Connection"/>
-    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
-    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="java.util.Locale.Category"/>
     <fullyQualifiedTypeName name="com.fuku.model.CategoryModel"/>
-    <fullyQualifiedTypeName name="com.fuku.connection.DBConnect"/>
     <fullyQualifiedTypeName name="java.lang.Math"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.fuku.dao.CategoryDAO"/>
+    <fullyQualifiedTypeName name="com.fuku.dao.ProductDAO"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.fuku.model.ProductModel"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
     <fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
     <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
-    <fullyQualifiedTypeName name="com.fuku.model.ProductModel"/>
-    <fullyQualifiedTypeName name="com.fuku.dao.ProductDAO"/>
-    <fullyQualifiedTypeName name="com.fuku.dao.CategoryDAO"/>
+    <fullyQualifiedTypeName name="com.fuku.dao.LoginDAO"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="com.fuku.connection.DBConnect"/>
+    <fullyQualifiedTypeName name="com.fuku.model.UserModel"/>
 </qualifiedTypeNameHistroy>

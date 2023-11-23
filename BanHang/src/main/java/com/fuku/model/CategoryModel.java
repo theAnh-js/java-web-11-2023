@@ -1,10 +1,15 @@
 package com.fuku.model;
 
+import java.util.List;
+
 public class CategoryModel {
 
 	private int categoryID;
 	private String categoryName;
 	private String icon;
+	
+	private int amountOfProduct;
+
 
 	public CategoryModel() {
 	}
@@ -38,6 +43,14 @@ public class CategoryModel {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+
+	public int getAmountOfProduct() {
+		return amountOfProduct;
+	}
+
+	public void setAmountOfProduct(int amountOfProduct) {
+		this.amountOfProduct = amountOfProduct;
 	}
 
 }

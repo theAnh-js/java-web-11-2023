@@ -180,7 +180,7 @@ public class ProductDAO {
 		conn = DBConnect.getConnection();
 		try {
 			ps = conn.prepareStatement(sql);
-			
+
 			// Trước khi executeQuery() thì set giá trị vào tham số ?
 			// vào sql.
 			ps.setInt(1, id);
@@ -240,10 +240,10 @@ public class ProductDAO {
 
 	public ProductModel findLastProductInEachCategory(List<ProductModel> listProduct) {
 
-		if(listProduct.isEmpty()) {
+		if (listProduct.isEmpty()) {
 			return null;
 		}
-		
+
 		int maxID = listProduct.get(0).getProductID();
 
 		for (ProductModel pro : listProduct) {
@@ -252,6 +252,98 @@ public class ProductDAO {
 		}
 		ProductModel product = findProductById(maxID);
 		return product;
+	}
+
+	public List<ProductModel> findAllProductByString(String str) {
+
+		List<ProductModel> list = new ArrayList<>();
+		String sql = "SELECT * FROM product WHERE ProductName LIKE ?";
+		// SELECT * FROM product WHERE ProductName LIKE '%nam%'
+
+		conn = DBConnect.getConnection();
+		try {
+			ps = conn.prepareStatement(sql);
+			// Trước khi executeQuery() thì set giá trị vào tham số ?
+			// vào sql.
+			ps.setString(1, "%" + str + "%");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+
+				ProductModel product = new ProductModel();
+
+				product.setProductID(rs.getInt(1));
+				product.setProductName(rs.getString(2));
+				product.setDescription(rs.getString(3));
+				product.setPrice(rs.getInt(4));
+				product.setImageLink(rs.getString(5));
+				product.setCategoryID(rs.getInt(6));
+				product.setSellerID(rs.getInt(7));
+				product.setAmount(rs.getInt(8));
+
+				list.add(product);
+			}
+
+			return list;
+
+		} catch (SQLException e) {
+			return null;
+		}
+	}
+
+	public int countAllProductByCategoryId(int id) {
+
+		int productAmount = 0;
+		String sql = "SELECT COUNT(*) AS totalProByID FROM product WHERE categoryID = ?";
+
+		conn = DBConnect.getConnection();
+		try {
+			ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, id);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+
+				productAmount = rs.getInt(1);
+			}
+
+			return productAmount;
+
+		} catch (SQLException e) {
+			return 0;
+		}
+	}
+
+	public List<ProductModel> findAllProductForPaging(int page) {
+
+		List<ProductModel> list = new ArrayList<>();
+		String sql = "select * from product limit 3 offset ?"; // mỗi trang để limit 3 sản phẩm
+
+		conn = DBConnect.getConnection();
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			int offset = (page - 1) * 3; // tính ra thứ tự để lấy từ sản phẩm nào
+			ps.setInt(1, offset);
+			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				ProductModel product = new ProductModel();
+				product.setProductID(rs.getInt(1));
+				product.setProductName(rs.getString(2));
+				product.setDescription(rs.getString(3));
+				product.setPrice(rs.getInt(4));
+				product.setImageLink(rs.getString(5));
+				product.setCategoryID(rs.getInt(6));
+				product.setSellerID(rs.getInt(7));
+				product.setAmount(rs.getInt(8));
+
+				list.add(product);
+			}
+			return list;
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 
 }
