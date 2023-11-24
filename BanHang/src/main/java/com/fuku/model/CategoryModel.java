@@ -1,7 +1,5 @@
 package com.fuku.model;
 
-import java.util.List;
-
 public class CategoryModel {
 
 	private int categoryID;

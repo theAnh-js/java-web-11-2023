@@ -258,11 +258,12 @@
             	</c:when>
            </c:choose>  --%>
 
-
-				<div class="col-12">
+		<!-- KHI bấm vào từng category thì các biến như currentPage, totalPage... không có nên 
+			đoạn code phân trang dưới sẽ không chạy, không hiện trên UI.
+		 -->
+		<div class="col-12">
 					<nav aria-label="...">
 						<ul class="pagination">
-							
 							<c:if test="${currentPage > 1}">
 								<li class="page-item"><a class="page-link" href="<c:url value="/product?page=${currentPage-1}"/>"
 								>Previous</a></li>
@@ -282,5 +283,5 @@
 			</div>
 		</div>
 	</div>
-</div>
+<</div>
 

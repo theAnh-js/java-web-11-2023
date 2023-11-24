@@ -75,7 +75,7 @@ public class ProductController extends HttpServlet {
 			listAllPro = productDAO.findAllProductByCategoryId(categoryID);
 			lastPro = productDAO.findLastProductInEachCategory(listAllPro);
 			
-			 req.setAttribute("listAllProduct", listAllPro);
+			req.setAttribute("listAllProduct", listAllPro);
 		}
 
 		req.setAttribute("listCategory", listCategory);

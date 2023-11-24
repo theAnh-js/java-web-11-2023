@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.lang.StringBuffer"/>
-    <fullyQualifiedTypeName name="org.codehaus.jackson.map.util.JSONPObject"/>
-    <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.util.JSONPObject"/>
     <fullyQualifiedTypeName name="com.laptrinhjavaweb.utils.HttpUtil"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
     <fullyQualifiedTypeName name="com.laptrinhjavaweb.mapper.NewsMapper"/>
@@ -27,7 +24,6 @@
     <fullyQualifiedTypeName name="com.laptrinhjavaweb.service.impl.UserService"/>
     <fullyQualifiedTypeName name="com.laptrinhjavaweb.model.RoleModel"/>
     <fullyQualifiedTypeName name="java.util.ResourceBundle"/>
-    <fullyQualifiedTypeName name="java.io.File"/>
     <fullyQualifiedTypeName name="javax.servlet.Filter"/>
     <fullyQualifiedTypeName name="javax.servlet.ServletContext"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
@@ -41,23 +37,27 @@
     <fullyQualifiedTypeName name="com.laptrinhjavaweb.service.ICategoryService"/>
     <fullyQualifiedTypeName name="com.laptrinhjavaweb.service.impl.CategoryService"/>
     <fullyQualifiedTypeName name="java.sql.DriverManager"/>
-    <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="com.fuku.controller.HomeController"/>
     <fullyQualifiedTypeName name="java.util.Locale.Category"/>
-    <fullyQualifiedTypeName name="com.fuku.model.CategoryModel"/>
     <fullyQualifiedTypeName name="java.lang.Math"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.fuku.dao.CategoryDAO"/>
-    <fullyQualifiedTypeName name="com.fuku.dao.ProductDAO"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
-    <fullyQualifiedTypeName name="com.fuku.model.ProductModel"/>
-    <fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
-    <fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
     <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
     <fullyQualifiedTypeName name="com.fuku.dao.LoginDAO"/>
     <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
-    <fullyQualifiedTypeName name="com.fuku.connection.DBConnect"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.Session"/>
     <fullyQualifiedTypeName name="com.fuku.model.UserModel"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
+    <fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="com.fuku.dao.ProductDAO"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.fuku.model.ProductModel"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.fuku.model.CategoryModel"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
+    <fullyQualifiedTypeName name="com.fuku.connection.DBConnect"/>
 </qualifiedTypeNameHistroy>
