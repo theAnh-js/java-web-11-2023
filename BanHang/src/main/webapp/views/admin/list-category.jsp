@@ -23,6 +23,7 @@
 
 <table id="example" class="table table-striped table-bordered"
 	style="width: 100%">
+	<p><a href="<c:url value="/admin/category/add"/>">Thêm Danh Mục</a></p>
 	<thead>
 		<tr>
 			<th>STT</th>

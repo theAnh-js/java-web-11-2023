@@ -33,7 +33,7 @@
 							class="list-group-item ${item.categoryID eq cate_ID ? 'active' : ''}">
 							<!-- Khi được active thì đổi luôn màu chữ thành trắng cho dễ nhìn :) -->
 							<a class="${item.categoryID eq cate_ID ? 'text-white' : ''}"
-							href="<c:url value="/product?id=${item.categoryID}"/>">${item.icon}
+							href="<c:url value="/product?id=${item.categoryID}"/>">
 								${item.categoryName}(${item.amountOfProduct})</a>
 						</li>
 					</c:forEach>

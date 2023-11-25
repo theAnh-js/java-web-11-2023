@@ -345,5 +345,29 @@ public class ProductDAO {
 			return null;
 		}
 	}
+	
+	// crud product
+	public void edit(ProductModel product) {
+		
+		String sql = "update product set ProductName = ?, Description = ?, Price = ?, imageLink = ?,"
+				+ "CategoryID = ?, SellerID = ?, Amount = ? where CategoryID = ?";
+		try {
+			conn = DBConnect.getConnection();
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, product.getProductName());
+			ps.setString(2, product.getDescription());
+			ps.setInt(3, product.getPrice());
+			ps.setString(4, product.getImageLink());
+			ps.setInt(5, product.getCategoryID());
+			ps.setInt(6, product.getSellerID());
+			ps.setInt(7, product.getAmount());
+			ps.setInt(8, product.getProductID());
+			
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

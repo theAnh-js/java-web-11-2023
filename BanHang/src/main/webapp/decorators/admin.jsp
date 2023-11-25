@@ -7,6 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+body {
+	padding: 30px;
+}
+</style>
 </head>
 <body>
 
@@ -15,6 +20,6 @@
 	<dec:body />
 
 	<!-- end content -->
-	
+
 </body>
 </html>

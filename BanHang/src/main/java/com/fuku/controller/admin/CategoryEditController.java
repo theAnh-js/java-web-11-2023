@@ -19,28 +19,31 @@ import com.fuku.dao.CategoryDAO;
 import com.fuku.model.CategoryModel;
 import com.fuku.util.Constant;
 
-@WebServlet(urlPatterns = {"/admin/category/edit"})
+@WebServlet(urlPatterns = { "/admin/category/edit" })
 public class CategoryEditController extends HttpServlet {
 
 	private static final long serialVersionUID = 3040514203852614508L;
 
 	CategoryDAO categoryDAO = new CategoryDAO();
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("id");
-		CategoryModel category = categoryDAO.get(Integer.parseInt(id));
-		req.setAttribute("category", category);
-		
+		if (id != null) {
+			CategoryModel category = categoryDAO.get(Integer.parseInt(id));
+			req.setAttribute("category", category);
+
+		}
+
 		RequestDispatcher rd = req.getRequestDispatcher("/views/admin/edit-category.jsp");
 		rd.forward(req, resp);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		CategoryModel category = new CategoryModel();
-		
+
 		DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
 		ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory);
 		servletFileUpload.setHeaderEncoding("UTF-8");
@@ -48,26 +51,26 @@ public class CategoryEditController extends HttpServlet {
 			resp.setContentType("text/html");
 			resp.setCharacterEncoding("UTF-8");
 			req.setCharacterEncoding("UTF-8");
-			
+
 			List<FileItem> items = servletFileUpload.parseRequest(req);
-			for(FileItem item : items) {
-				if(item.getFieldName().equals("id")) {
+			for (FileItem item : items) {
+				if (item.getFieldName().equals("id")) {
 					category.setCategoryID(Integer.parseInt(item.getString()));
-				}else if(item.getFieldName().equals("name")) {
+				} else if (item.getFieldName().equals("name")) {
 					category.setCategoryName(item.getString("UTF-8"));
-				}else if(item.getFieldName().equals("icon")) {
-					if(item.getSize() > 0) {
+				} else if (item.getFieldName().equals("icon")) {
+					if (item.getSize() > 0) {
 						String originalFileName = item.getName();
 						int index = originalFileName.lastIndexOf(".");
 						String ext = originalFileName.substring(index + 1);
-						
+
 						String fileName = System.currentTimeMillis() + "." + ext;
-						
+
 						File file = new File(Constant.DIR + "/category/" + fileName);
-						
+
 						item.write(file);
 						category.setIcon("category/" + fileName);
-					}else {
+					} else {
 						category.setIcon(null);
 					}
 				}

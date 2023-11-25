@@ -27,7 +27,7 @@
 					<c:forEach var="item" items="${listCategory}">
 						<a
 							class="dropdown-item ${item.categoryID eq cate_ID ? 'text-white active' : ''}"
-							href="<c:url value="/product?id=${item.categoryID}"/>">${item.icon}
+							href="<c:url value="/product?id=${item.categoryID}"/>">
 							${item.categoryName}(${item.amountOfProduct})</a>
 					</c:forEach>
 
