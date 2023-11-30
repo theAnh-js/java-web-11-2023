@@ -23,6 +23,7 @@
 				role="button" data-toggle="dropdown" aria-haspopup="true"
 				aria-expanded="false"> Categories </a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				
 					<!--LOAD RA DANH SACH CATEGORY-->
 					<c:forEach var="item" items="${listCategory}">
 						<a
@@ -32,7 +33,7 @@
 					</c:forEach>
 
 				</div></li>
-			<li class="nav-item"><a class="nav-link disabled"
+			<li class="nav-item"><a class="nav-link"
 				href="<c:url value="/product"/>">Sản phẩm</a></li>
 			<li class="nav-item"><a class="nav-link disabled" href="#">Sản
 					phẩm nổi bật</a></li>
@@ -52,28 +53,35 @@
 			</c:choose>
 
 		</ul>
-
-		<!-- gọi vào servlet ->  /search-product và vào phương thức get trong -->
+			<!-- gọi vào servlet ->  /search-product và vào phương thức get trong -->
 		<form class="form-inline my-2 my-lg-0"
-			action="<c:url value="/search-product"/>" method="get">
-			<div class="input-group input-group-sm">
-				<input name="search" value="${searchVal}" type="text"
+				action="<c:url value="/search-product"/>" method="get">
+				<div class="input-group input-group-sm">
+				
+				 <input type="hidden" name="page" value="1">
+				 <input name="search" value="${searchVal}" type="text"
 					class="form-control" aria-label="Small"
 					aria-describedby="inputGroup-sizing-sm" placeholder="Search..." />
+					
+					<%-- <input oninput="searchByName(this)" name="search" value="${searchVal}" type="text"
+					class="form-control" aria-label="Small"
+					aria-describedby="inputGroup-sizing-sm" placeholder="Search..." /> --%>
+					
 				<div class="input-group-append">
 					<button type="submit" class="btn btn-secondary btn-number">
 						<i class="fa fa-search"></i>
 					</button>
 				</div>
-			</div>
+         
 			<a class="btn btn-success btn-sm ml-3" href="<c:url value="/cart"/>"> <i
 				class="fa fa-shopping-cart"></i> Cart <span
 				class="badge badge-light">${sessionScope.size}</span>
 			</a>
-		</form>
-
+		</div>
+	</form>
 	</div>
 </nav>
+
 
 <section class="jumbotron text-center">
 	<div class="container">
@@ -83,3 +91,4 @@
 			& contact</p>
 	</div>
 </section>
+

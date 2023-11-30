@@ -47,16 +47,35 @@ public class SearchController extends HttpServlet {
 		}
 		
 		String searchValue = req.getParameter("search");
-		System.out.println(searchValue);
+
 		List<ProductModel> listProduct = productDAO.findAllProductByString(searchValue);
+		/*
+		 * for (ProductModel p : listProduct) {
+		 * System.out.println("Cac sp tim ra khi search --> " + p.getProductName() + "("
+		 * + p.getProductID() +")"); }
+		 */
 		
-		if(listProduct != null) {
-			for (ProductModel pro : listProduct) {
-				System.out.println(pro.getProductName());
-			}
-		}else {
-			System.out.println("listProduct is null now");
+		// paging for search result
+		int count = listProduct.size();
+		int endPage = count / 3;
+		if(count % 3 != 0) {
+			endPage++;
 		}
+		req.setAttribute("endPage", endPage);
+		
+		int page = Integer.parseInt(req.getParameter("page"));
+		req.setAttribute("currentPage", page); // truyền sang để previous và next
+		System.out.println("Day la page thu: "+ page);
+		
+		List<ProductModel> listProductForSearchAndPaging = productDAO.productForSearchAndPaging(page, listProduct, 3);
+		/*
+		 * for (ProductModel p : listProductForSearchAndPaging) {
+		 * System.out.println("San pham o trang " + page + " -->  " + p.getProductName()
+		 * + "(" + p.getProductID() +")"); }
+		 */
+		req.setAttribute("listProductForSearchAndPaging", listProductForSearchAndPaging);
+		
+		// paging for search result
 
 
 		req.setAttribute("listCategory", listCategory);

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fuku.connection.DBConnect;
-import com.fuku.model.CategoryModel;
 import com.fuku.model.ProductModel;
 
 public class ProductDAO {
@@ -407,6 +406,94 @@ public class ProductDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	// để load lên sẵn 3 sản phẩm có id lớn nhất - nghĩa là 3 sản phẩm mới nhất
+	public List<ProductModel> findTop6NewProduct() {
+		List<ProductModel> list = new ArrayList<>();
+
+		String sql = "select * from Product order by ProductID desc limit 6";
+		conn = DBConnect.getConnection();
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				ProductModel product = new ProductModel();
+				product.setProductID(rs.getInt(1));
+				product.setProductName(rs.getString(2));
+				product.setDescription(rs.getString(3));
+				product.setPrice(rs.getInt(4));
+				product.setImageLink(rs.getString(5));
+				product.setCategoryID(rs.getInt(6));
+				product.setSellerID(rs.getInt(7));
+				product.setAmount(rs.getInt(8));
+
+				list.add(product);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			return null;
+		}
+	}
+	
+	// for load ajax
+	public List<ProductModel> getAllPage(int amount) {
+		List<ProductModel> list = new ArrayList<>();
+		String sql = "SELECT * FROM product\r\n"
+				+ "		ORDER BY ProductID DESC\r\n"
+				+ "		LIMIT 3 OFFSET ?"; // mỗi trang để limit 3 sản phẩm
+		
+		conn = DBConnect.getConnection();
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, amount);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				ProductModel product = new ProductModel();
+				product.setProductID(rs.getInt(1));
+				product.setProductName(rs.getString(2));
+				product.setDescription(rs.getString(3));
+				product.setPrice(rs.getInt(4));
+				product.setImageLink(rs.getString(5));
+				product.setCategoryID(rs.getInt(6));
+				product.setSellerID(rs.getInt(7));
+				product.setAmount(rs.getInt(8));
+
+				list.add(product);
+			}
+			return list;
+		} catch (SQLException e) {
+			return null;
+		}	
+	}
+	
+	
+	// for search and paging
+	public List<ProductModel> productForSearchAndPaging(int currentPage, List<ProductModel> list, int limit){
+		
+		List<ProductModel> listResult = new ArrayList<>();
+		
+		int count = 0;
+		int offset = (currentPage - 1) * limit;  // từ số trang và số sản phẩm giới hạn trong 1 trang tính ra số thứ tự của sản phẩm
+												 // ứng với số trang đó.
+		
+		for(int i = 0; i < list.size(); i++) {
+			if(i == offset) {  // lấy các sản phẩm từ i(từ offset)
+				while(count != limit && i < list.size()) {
+					listResult.add(list.get(i));
+					i++;
+					count++;
+				}
+				if(count == limit) {
+					break;
+				}
+			}
+		}
+		return listResult;
 	}
 
 }

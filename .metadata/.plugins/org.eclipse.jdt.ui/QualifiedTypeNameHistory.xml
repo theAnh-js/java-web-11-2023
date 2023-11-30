@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.laptrinhjavaweb.model.CategoryModel"/>
-    <fullyQualifiedTypeName name="com.laptrinhjavaweb.model.CommentModel"/>
-    <fullyQualifiedTypeName name="com.laptrinhjavaweb.paging.PageRequest"/>
-    <fullyQualifiedTypeName name="com.laptrinhjavaweb.sort.Sorter"/>
-    <fullyQualifiedTypeName name="com.laptrinhjavaweb.paging.Pageble"/>
-    <fullyQualifiedTypeName name="com.laptrinhjavaweb.dao.impl.AbstractDAO"/>
-    <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
     <fullyQualifiedTypeName name="javax.management.relation.Role"/>
     <fullyQualifiedTypeName name="com.laptrinhjavaweb.mapper.UserMapper"/>
     <fullyQualifiedTypeName name="com.laptrinhjavaweb.dao.IUserDAO"/>
@@ -32,14 +25,7 @@
     <fullyQualifiedTypeName name="java.util.Locale.Category"/>
     <fullyQualifiedTypeName name="java.lang.Math"/>
     <fullyQualifiedTypeName name="com.fuku.dao.LoginDAO"/>
-    <fullyQualifiedTypeName name="java.sql.Connection"/>
-    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
-    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="com.mysql.cj.Session"/>
-    <fullyQualifiedTypeName name="com.fuku.model.UserModel"/>
-    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="org.apache.commons.fileupload.disk.DiskFileItemFactory"/>
     <fullyQualifiedTypeName name="org.apache.commons.fileupload.servlet.ServletFileUpload"/>
@@ -51,13 +37,27 @@
     <fullyQualifiedTypeName name="java.io.FileInputStream"/>
     <fullyQualifiedTypeName name="com.fuku.util.Constant"/>
     <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
+    <fullyQualifiedTypeName name="com.fuku.model.CategoryModel"/>
+    <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.fuku.model.OrderModel"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
     <fullyQualifiedTypeName name="com.fuku.connection.DBConnect"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="java.lang.NumberFormatException"/>
+    <fullyQualifiedTypeName name="com.fuku.dao.ProductDAO"/>
+    <fullyQualifiedTypeName name="com.fuku.model.ItemModel"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
     <fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
-    <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+    <fullyQualifiedTypeName name="com.fuku.model.CartModel"/>
+    <fullyQualifiedTypeName name="com.fuku.model.UserModel"/>
+    <fullyQualifiedTypeName name="com.fuku.dao.OrderDAO"/>
     <fullyQualifiedTypeName name="com.fuku.dao.CategoryDAO"/>
+    <fullyQualifiedTypeName name="java.io.PrintWriter"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="java.util.List"/>
-    <fullyQualifiedTypeName name="com.fuku.model.CategoryModel"/>
     <fullyQualifiedTypeName name="com.fuku.model.ProductModel"/>
-    <fullyQualifiedTypeName name="com.fuku.dao.ProductDAO"/>
 </qualifiedTypeNameHistroy>
