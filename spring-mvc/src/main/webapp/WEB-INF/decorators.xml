@@ -1,0 +1,18 @@
+<decorators defaultdir="/decorators">
+
+<!-- Khi dùng /* thì sẽ áp dụng cho tất cả các url, bao gồm cả /quan-tri
+	Nhưng:  Trong trường hợp có nhiều decorator áp dụng, 
+	decorator được xác định sau cùng trong tệp tin cấu hình 
+	sẽ được sử dụng. Nên khi url là /quan-tri thì admin.jsp
+	sẽ được áp dụng, chứ ko áp dụng web.jsp -->
+	
+	<decorator name="web" page="web.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+	<decorator name="admin" page="admin.jsp">
+		<pattern>/quan-tri*</pattern>
+	</decorator>
+	<decorator name="login" page="login.jsp">
+		<pattern>/dang-nhap</pattern>
+	</decorator>
+</decorators>

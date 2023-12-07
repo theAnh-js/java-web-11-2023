@@ -8,6 +8,7 @@ public class SessionUtil {
 	// mà 1 đối tượng có thể sử dụng lại nhiều lần: 
 	// (đây là một dạng design pattern)
 	private static SessionUtil sessionUtil = null;
+	
 	public static SessionUtil getInstance(){
 		if(sessionUtil == null) {
 			sessionUtil = new SessionUtil();

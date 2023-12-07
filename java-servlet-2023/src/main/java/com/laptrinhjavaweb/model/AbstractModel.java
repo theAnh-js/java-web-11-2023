@@ -20,10 +20,10 @@ public class AbstractModel<T> {
 	private Integer maxPageItem;
 	private Integer totalPage;
 	private Integer totalItem;
-	
+
 	private String sortName;
 	private String sortBy;
-	
+
 	private String alert;
 	private String message;
 	private String type;

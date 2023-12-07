@@ -41,8 +41,8 @@ public class CartController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		CartModel cart = null;
-		HttpSession session = req.getSession(true);
-		Object o = session.getAttribute("cart");
+		HttpSession session = req.getSession(true); // để true để nếu ko có session thì tạo session mới, 
+		Object o = session.getAttribute("cart");   // nếu khôg .getAttribute bị lỗi, vì nếu là false thì session sẽ là null.
 
 		if (o != null) {
 			cart = (CartModel) o;
