@@ -44,6 +44,8 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="com.theanh.shop"/>
+			<item value="com.laptringspringmvc"/>
 			<item value="com.laptrinhjavaweb"/>
 			<item value="com.demo"/>
 			<item value="com.fuku"/>
@@ -52,6 +54,8 @@
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="diamon-shop"/>
+			<item value="SpringMVCProject"/>
 			<item value="spring-mvc"/>
 			<item value="com.demo"/>
 			<item value="BanHang"/>
