@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="C:\Users\meiou\OneDrive\デスクトップ\JAVA-WEB-11-2023\workspace2\spring-mvc-ptit\src\main\java\com\laptrinhvuive\controller\HomeController.java"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -44,6 +45,10 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="com.laptrinhspringmvc"/>
+			<item value="com.laptrinhjava"/>
+			<item value="trungtamjava"/>
+			<item value="com.laptrinhvuive"/>
 			<item value="com.theanh.shop"/>
 			<item value="com.laptringspringmvc"/>
 			<item value="com.laptrinhjavaweb"/>
@@ -54,6 +59,10 @@
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="customer-manage-springmvc"/>
+			<item value="spring-boot"/>
+			<item value="HelloWorld"/>
+			<item value="spring-mvc-ptit"/>
 			<item value="diamon-shop"/>
 			<item value="SpringMVCProject"/>
 			<item value="spring-mvc"/>
@@ -77,5 +86,18 @@
 	<section name="org.eclipse.m2e.core.pom.overview">
 	</section>
 	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+	<section name="MavenProjectImportWizardPage">
+		<list key="rootDirectory">
+			<item value="C:\Users\meiou\Downloads\demo\demo"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
 	</section>
 </section>

@@ -113,4 +113,38 @@
 	</section>
 	<section name="RenameInformationPopup">
 	</section>
+	<section name="JavadocWizardDialog">
+		<item key="DIALOG_X_ORIGIN" value="-52"/>
+		<item key="DIALOG_Y_ORIGIN" value="0"/>
+		<item key="DIALOG_WIDTH" value="1022"/>
+		<item key="DIALOG_HEIGHT" value="836"/>
+		<item key="DIALOG_FONT_NAME" value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI"/>
+	</section>
+	<section name="javadoc">
+		<item key="javadoc_command_history" value="C:\Program Files\Java\jdk-18\bin\javadoc.exe"/>
+		<item key="fromStandard" value="true"/>
+		<item key="docletname" value=""/>
+		<item key="docletpath" value=""/>
+		<item key="access" value="public"/>
+		<item key="use" value="true"/>
+		<item key="author" value="true"/>
+		<item key="version" value="true"/>
+		<item key="nodeprecated" value="false"/>
+		<item key="nodeprecatedlist" value="false"/>
+		<item key="splitindex" value="true"/>
+		<item key="noindex" value="false"/>
+		<item key="notree" value="false"/>
+		<item key="nonavbar" value="false"/>
+		<item key="openinbrowser" value="false"/>
+		<item key="source" value="1.8"/>
+		<item key="antpath" value="C:\Users\meiou\OneDrive\デスクトップ\JAVA-WEB-11-2023\workspace2\customer-manage-springmvc\javadoc.xml"/>
+		<item key="destdir" value="C:\Users\meiou\OneDrive\デスクトップ\JAVA-WEB-11-2023\workspace2\customer-manage-springmvc\doc"/>
+		<section name="projects">
+			<section name="customer-manage-springmvc">
+				<item key="href" value=""/>
+				<item key="destdir" value="C:\Users\meiou\OneDrive\デスクトップ\JAVA-WEB-11-2023\workspace2\customer-manage-springmvc\doc"/>
+				<item key="antpath" value="C:\Users\meiou\OneDrive\デスクトップ\JAVA-WEB-11-2023\workspace2\customer-manage-springmvc\javadoc.xml"/>
+			</section>
+		</section>
+	</section>
 </section>
