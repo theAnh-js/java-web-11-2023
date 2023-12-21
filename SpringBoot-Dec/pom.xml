@@ -42,14 +42,41 @@
 		    <scope>provided</scope>
 		</dependency>
 		
-		      <!-- jstl -->
+		<!-- jstl -->
 	   <dependency>
 	      <groupId>javax.servlet</groupId>
 	      <artifactId>jstl</artifactId>
 	      <version>1.2</version>
 	   </dependency>
-
+	   
+	   <!-- hibernate-validator -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>8.0.0.Final</version>
+		</dependency>
 		
+		<!-- /spring-boot-starter-data-jpa -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- mysql-connector-java -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.33</version>
+		</dependency>
+		
+		<!--modelmapper -->
+		<dependency>
+		    <groupId>org.modelmapper</groupId>
+		    <artifactId>modelmapper</artifactId>
+		    <version>3.1.1</version>
+		</dependency>
+
+	
 		<!--Phải có thằng này mới chạy được project này-->
 		<!-- tomcat.embed/tomcat-embed-jasper -->
 		<dependency>
