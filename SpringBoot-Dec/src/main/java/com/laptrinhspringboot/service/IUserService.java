@@ -8,6 +8,10 @@ public interface IUserService {
 	
 	List<UserDTO> findAll();
 	
+	UserDTO findByEmail(String email);
+	
+	List<UserDTO> findALLBySort(int pageNumber, int limit, String sortBy, String orderBy);
+	
 	UserDTO findOne(Integer id);
 	
 	void saveUser(UserDTO user);

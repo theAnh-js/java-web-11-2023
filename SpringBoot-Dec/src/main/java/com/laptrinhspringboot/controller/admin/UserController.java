@@ -1,7 +1,6 @@
 package com.laptrinhspringboot.controller.admin;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.laptrinhspringboot.dto.UserDTO;
 import com.laptrinhspringboot.service.IUserService;
 import com.laptrinhspringboot.utils.FileUploadUtil;
+import com.laptrinhspringboot.utils.HashUtil;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -43,8 +43,36 @@ public class UserController {
 	public String index(Model model) {// IoC container giúp ta khởi tạo Model và tiêm vào tham số hàm.
 		
 		List<UserDTO> list = userService.findAll();
-		model.addAttribute("allUsers", list);
 		
+		
+		// paging
+		String pageNumberStr = request.getParameter("page");
+		if(pageNumberStr == null) pageNumberStr = "1";
+		int pageNumber = Integer.parseInt(pageNumberStr);
+		int limit = 2;
+		int totalPage = list.size() % limit == 0 ? list.size() / limit : (list.size() / limit) + 1;
+		
+		// sort by, order by
+		String sortByStr = request.getParameter("sort_by");
+		String orderBy = request.getParameter("sort_direction");
+		
+		if(orderBy == null) orderBy = "asc";
+		
+		if(sortByStr != null) {
+			// vì tham số tại pageNumber nhận vào từ 0, 
+			// nên nếu trên url page=1, thì sẽ ra trang thứ 2, nên ta chủ động trừ -1
+			// do đó, nếu page=1 trên url thì ở đây sẽ hiểu là page = 1-1 = 0 để lấy cho ta trang đầu tiên.
+			// Nếu không, để lấy trang đầu tiên ta phải page = 0 trên url thì không đẹp lắm.
+			list = userService.findALLBySort(pageNumber - 1, limit, sortByStr, orderBy);
+		}	
+		
+		model.addAttribute("sortBy", sortByStr);
+		model.addAttribute("orderBy", orderBy);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("currentPage", pageNumber);
+		
+		model.addAttribute("allUsers", list);
+				
 		return "admin/user/index";
 	}
 	
@@ -71,6 +99,9 @@ public class UserController {
 		
 	@PostMapping(value="/store")
 	public String store(@ModelAttribute("user") UserDTO user) {
+		
+		String hashedPass = HashUtil.hash(user.getPassword());
+		user.setPassword(hashedPass);
 		
 		userService.insertUser(user);
 		return "redirect:/admin/users";	

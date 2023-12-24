@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"></link>
 </head>
 <body>
-<h1 class="text-danger">Trang liên quan đến User để admin quản lý</h1>
+<h1 class="text-danger">Trang liên quan đến User do admin(${sessionScope.user.username}) quản lý</h1>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light px-5">
 	  <a class="navbar-brand" href="#">Navbar</a>
@@ -30,25 +30,22 @@
 	</nav>
 
 	<div class="col-10 offset-1 mt-5 border border-primary p-2">
+	
 		<form method="GET" action="${ pageContext.request.contextPath }/admin/users">
 			<div class="row col-12 mt-2">
 				<div class="col-6">
 					<label>Sắp xếp theo</label>
 					<select name="sort_by" class="form-control">
 						<option value="id">Mặc định</option>
-						<option value="username" >
-							Họ Tên
-						</option>
-						<option value="email">Email</option>
-						<option value="admin">Tài khoản</option>
-						<option value="activated">Trạng thái</option>
+						<option value="username" <c:if test="${sortBy == 'username'}">selected</c:if> >Họ Tên</option>
+						<option value="email" <c:if test="${sortBy == 'email' }">selected</c:if> > Email</option>
 					</select>
 				</div>
 				<div class="col-6">
 					<label>Thứ tự</label>
 					<select name="sort_direction" class="form-control">
-						<option value="asc">Tăng dần</option>
-						<option value="desc">Giảm dần</option>
+						<option value="asc" <c:if test="${orderBy == 'asc' }">selected</c:if>>Tăng dần</option>
+						<option value="desc" <c:if test="${orderBy == 'desc' }">selected</c:if> >Giảm dần</option>
 					</select>
 				</div>
 			</div>
@@ -116,6 +113,30 @@
 		</table>
 		
 		<div>
+		
+			<ul class="pagination">
+			
+				<c:if test="${currentPage > 1}">
+				<li class="page-item">
+					<a class="page-link" href="${pageContext.request.contextPath}/admin/users?sort_by=${sortBy}&sort_direction=${orderBy}&page=${currentPage - 1}">&lt;&lt;</a>
+				</li>
+				</c:if>
+				
+				
+				<c:forEach begin="1" end="${totalPage}" varStatus="page">		
+					<li class="page-item <c:if test='${page.index == currentPage}'>active</c:if>">
+						<a href="${pageContext.request.contextPath}/admin/users?sort_by=${sortBy}&sort_direction=${orderBy}&page=${page.index}" class="page-link">${ page.index}</a>
+					</li>
+				</c:forEach>
+				
+				<c:if test="${currentPage < totalPage}">
+				<li class="page-item">
+					<a class="page-link" href="${pageContext.request.contextPath}/admin/users?sort_by=${sortBy}&sort_direction=${orderBy}&page=${currentPage + 1}">&gt;&gt;</a>
+				</li>
+				</c:if>
+				
+			</ul>
+	
 			<%-- <ul class="pagination">
 				<c:forEach begin="0" end="${ pageData.totalPages - 1 }" varStatus="page">
 					<li class="page-item">

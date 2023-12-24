@@ -41,7 +41,10 @@
 				<label>Email :  </label>
 				<form:input path="email"/>	
 			</div>
-			
+			<div class="row col-12">
+				<label>Password :  </label>
+				<form:input path="password"/>	
+			</div>
 			<button type="submit">Create</button>
 			
 		</form:form>

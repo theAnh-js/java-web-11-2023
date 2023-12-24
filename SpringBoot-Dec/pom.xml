@@ -75,8 +75,27 @@
 		    <artifactId>modelmapper</artifactId>
 		    <version>3.1.1</version>
 		</dependency>
+		
+		<!-- mindrot/jbcrypt -->
+		<dependency>
+		    <groupId>org.mindrot</groupId>
+		    <artifactId>jbcrypt</artifactId>
+		    <version>0.4</version>
+		</dependency>
 
-	
+		<!-- spring-boot-starter-mail -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-mail</artifactId>
+		    <version>3.2.0</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>javax.mail-api</artifactId>
+		    <version>1.6.2</version> <!-- Hoặc phiên bản mới nhất -->
+		</dependency>
+
 		<!--Phải có thằng này mới chạy được project này-->
 		<!-- tomcat.embed/tomcat-embed-jasper -->
 		<dependency>
