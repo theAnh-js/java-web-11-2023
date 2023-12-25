@@ -1,0 +1,176 @@
+--
+--
+========== SPRING MVC ===========
+
+********** BÀI 1 *******************
+
+1. KHÁI NIỆM VÀ Ý NGHĨA CỦA FRAMEWORK: 
+- Framework: là các ứng dụng phần mềm có tính trừu tượng(abstraction), cung
+cấp các tính năng chung và thông dụng có thể tùy biến để tạo nên các ứng dụng
+cụ thể khác nhau.
+--> Mỗi framework sẽ cung cấp 1 phương pháp riêng biệt để phát triển và xây 
+dựng ứng dụng.
+(Spring framework, Java Collection, Laravel, .NET,...)
+- Framework bao gồm môi trường tổng thể, tái sử dụng được, nhằm cung cấp
+các chức năng, công cụ để hỗ trợ quá trình phát triển ứng dụng.
+- Điểm khác biệt lớn nhất giữa library và framework là IOC - Inversion of Control.
+Your code call library.
+Framework call your code.
+Trong Framework có thể chứa các Library.
+
+2. CÁC THÀNH PHẦN CỦA SPRING FRAMEWORK:
+
+- Spring là gì? Là 1 Framework phát triển các ứng dụng java. Là 1 mã nguồn mở,
+được support bởi 1 cộng đồng lớn.
+
+- CÁC THÀNH PHẦN CỦA SPRING:
++) Core Container: Beans(đối tượng do IoC Container tạo và quản lý, có thể
+dùng để thiết kế Design Pattern Singleton ), Core, Context(kết nối các 
+thành phần với nhau), SpEL(Spring Expression Language - giúp ta viết các file cấu hình đơn giản hơn).
++) AOP, Aspects,...
++) JDBC, ORM,...
++) Web, Servlet, WebSocket,...
+
+- Tổng quan về Spring MVC: là 1 nền tảng mã nguồn mở để phát triển ứng dụng java,
+được cài đặt các tính năng đầy đủ của MVC pattern.
+Nó khác với MVC truyền thống là nó cung cấp 1 Fron Controller để xử lý và lắng nghe
+mỗi khi có request đến ứng dụng.
+--> Lợi ích của Front Controller: bảo mật, hỗ trợ I18N(đa ngôn ngữ),...
+
+- CÁC FILE CONFIG CHÍNH CHO PROJECT SPRING MVC:
+web.xml : khai báo dispatcher servlet(front controller) và file context
+applicationContext.xml: khai báo các bean.
+dispatcher-servlet.xml: config cho Spring biết được là tạo bean ở các package nào(scan, annotation)).
+                        Và config đường dẫn của thư mục chứa view.
+						
+- ViewResolver: là cơ chế để xử lý tầng view của Spring MVC. Có nhiệm vụ 
+ánh xạ tên của view sang đối tượng view tương ứng.
+
+*********** BÀI 2: SPRING CONTROLLER ***********
+
+1. Khái niệm về controller.
+- Là 1 thành phần trong mô hình MVC có nhiệm vụ điều hướng request(chú ý không
+code nhiều logic ở controller, logic ở service giải quyết), thường gọi model
+để nhận dữ liệu, sau khi dữ liệu được xử lý thì trả về lại cho view.
+- Để tạo Controller, ta phải tạo class và implements interface Controller.
+Nhưng từ Spring2.5 ta sd annotation @Controller hoặc @RestController để khai
+báo 1 controller cho Class.
+
+2. @Controller và @RestController
+@Controller: khai báo controller trong ứng dụng website truyền thống.
+@RestController: sử dụng trong việc khai báo controller trong ứng dụng webservice.
+
+- Để tự động phát hiện Controller trong Spring MVC thì ta khai báo giống:
+			<context:component-scan base-package="DiamonShop" />
+Hoặc có thể config bằng file .java: @ConponentScan("DiamonShop")
+
+3. @RequestMapping: được sd để ánh xạ các request đến các action tương ứng của 
+controller.
+VD:	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	NÓi chung nó chứa các thông tin của:
+		+ Http method -> method=...
+		+ url -> value
+		+ Các tham số -> params
+		+ header của request -> headers
+		+ MediaTypes -> consumes
+	
+	Ngắn gọn hơn => dùng các biến thể dành cho HTTP method:
+	@PostMapping(value = "/login")
+	@GetMapping
+	@PatchMapping
+	@PutMapping
+	@DeleteMapping
+	
+4. Các thuộc tính của @RequestMapping.
+- value, method 
+- consumes: ánh xạ đến Content-Type của request -> quy định loại dữ liệu
+mà client gửi đến server để xử lí.
+- produces: ánh xạ đến thuộc tính Accept của request -> quy định loại dữ liệu
+mà server được phép trả về client.
+- params: ánh xạ tới tham số trên url
+- headers: ánh xạ đến header của request. 
+
+5. @RequestParam và @PathVariable
+
+- Với @PathVariable:
+url request có dạng: ..../2 -> 2 là id
+
+@GetMapping(value = "detail/{id}")
+public String getDetailStudent(@PathVariable("id") int id){...}; -> ưu tiên dùng.
+Nếu đặt tên tham số của hàm giống tên tham số trên url thì chỉ cần:
+public String getDetailStudent(@PathVariable int id){...};
+
+- Với @RequestParam: 
+url request có dạng: ....?id=2  -> 2 là id
+@GetMapping(value = "detail")
+public String getDetailStudent(@RequestParam("id") int id){...};
+
+===> So sánh @RequestParam và @PathVariable
+- Giống: đều để lấy dữ liệu từ client gửi lên.
+- Khác:
++ @RequestParam: gửi giá trị theo cặp key-value -> thường sd trong form
++ @PathVariable: lấy dữ liệu theo dạng value -> thường được sd lấy dữ liệu từ url.
+ 
+6. Redirect và forward
+- Redirect : yêu cầu 1 chuyến khứ hồi tới server
+- Forward : trả về reponse luôn
+--> Forward sẽ nhanh hơn redirect.
+--> Tuy nhiên, forward có nhược điểm: không thể chuyến hướng trang web ra 
+bên ngoài của web hiện tại.
+- Dùng redirect giúp người dùng tránh việc gọi lại cùng 1 URL khi người dùng
+reload lại trang web.   
+---> Redirect thích hợp khi bạn muốn người dùng thấy một URL mới và 
+	tạo ra một request mới từ trình duyệt của họ. Điều này thường xuyên đ
+	ược sử dụng cho việc điều hướng giữa các trang và khi bạn muốn chia sẻ URL 
+	có thể bookmark được.
+
+	Forward thích hợp khi bạn muốn chuyển tiếp người dùng ngay trong cùng 
+	một request và không muốn thay đổi URL trên trình duyệt của họ. 
+	Forward thường được sử dụng khi bạn muốn thực hiện các xử lý nội bộ và 
+	chuyển tiếp kết quả sang một controller hoặc view khác.
+	
+	Redirect tạo ra 2 request:
+	Khi sử dụng redirect, trình duyệt của người dùng sẽ gửi một request 
+	đến URL mới. Điều này có thể dẫn đến việc tạo ra hai request HTTP: 
+	một request để xử lý chuyển hướng và một request mới từ trình duyệt 
+	của người dùng đến URL mới.
+	
+	Forward tạo ra 1 request:
+	Trong trường hợp của forward, không có request mới từ trình duyệt. 
+	Thay vào đó, controller hoặc servlet hiện tại sẽ trực tiếp chuyển tiếp 
+	kết quả của request hiện tại đến một endpoint hoặc view khác trong cùng 
+	một request.
+	
+- Trong trường hợp để url hiện thị đúng ý nghĩa của  trang thì nên dùng 
+redirect.
+ Ví dụ: đang ở url /create. Nếu ở đây ta tạo 1 đối tượng mới và forward đến 
+ trang jsp list.jsp thì trước khi ta forward ta phải add model cho nó và khi
+ chuyển trang list.jsp thì url vẫn hiện là /create -> ko tường mình.
+ Thay vì đó, ở url /create ta redirect:/list -> nó sẽ tìm đến @GetMapping("/list")
+ và phương thức dưới @GetMapping("/list") sẽ sữ lý add model và forward cho ta.
+ Giúp ta có url /list tường mình hơn.
+	
+7. Handler Method và các kiểu trả về
+- Handler Method: trong class Controller, mỗi phương thức xử lý 1 action cho 1
+request -> gọi là Handler Method.
+- Có các tham số: @PathVariable, @RequestParam, Model,...
+- Trả về: String, ModelAndView, void, @ResponseBody, @ModelAttribute,...
+
+******  BÀI 3: SPRING DATABINDING VÀ FORM ******
+
+1. Khái niệm về data binding:
+- Là cơ chế liên kết dữ liệu đầu vào, đầu ra với model.
+- Tự động chuyển đổi các dữ liệu trên form thành các thuộc tính của các đối 
+tượng liên kết với nó.
+-> giúp ta tương tác dễ dàng hơn vì các form đều sẽ liên kết với dữ liệu.
+   Hỗ trợ chuyển đổi dữ liệu + validate dữ liệu.
+
+2. Cơ chế hoạt động của Data Binding trong Spring.
+
+ Text Input(.jsp,.html) 
+	=> DataBinder(Fomatters, ConversionService, PropertyEditors, Validators)
+	   => Bean(đối tượng liên kết với form), BindingResult(thành côg or th bại).
+
+3. Spring form: hỗ trợ tạo form trong form.
+- Ngoài các thuộc tính bình thường, nó còn hỗ trợ 1 thuộc tính quan trọng là
+modelAttribute -> giúp ta thực hiện cơ chế binding.

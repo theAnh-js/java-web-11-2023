@@ -95,6 +95,10 @@
 		    <artifactId>javax.mail-api</artifactId>
 		    <version>1.6.2</version> <!-- Hoặc phiên bản mới nhất -->
 		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
 
 		<!--Phải có thằng này mới chạy được project này-->
 		<!-- tomcat.embed/tomcat-embed-jasper -->
