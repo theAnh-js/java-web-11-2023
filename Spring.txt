@@ -172,5 +172,285 @@ tượng liên kết với nó.
 	   => Bean(đối tượng liên kết với form), BindingResult(thành côg or th bại).
 
 3. Spring form: hỗ trợ tạo form trong form.
+
 - Ngoài các thuộc tính bình thường, nó còn hỗ trợ 1 thuộc tính quan trọng là
 modelAttribute -> giúp ta thực hiện cơ chế binding.
+- Trong <form:form....>:
++) modelAttribute = "student": đại diện cho model được binding vào.
++) path: liên kết tên thuộc tính của model với trường hiện tại(input, checkbox,...)
+- Để binding model giữa view và controller: Bên controller ta sd:	
+					@ModelAttribute("student") Student student;
+
+- Hiện thị danh sách với select, checkbox:
+ <form:select path="classRoom">
+        <form:option value="" label="-- Select Class Room --" />
+        <form:options items="${classRooms}" itemValue="id" itemLabel="name" />
+ </form:select>
+ 
+ ==> public class ClassRoom {
+    private Long id;
+    private String name;
+
+    // constructor, getters, setters
+}
+==> itemValue="id": 
+		Chọn thuộc tính id của mỗi đối tượng ClassRoom làm giá trị của mỗi option.
+	itemLabel="name": 
+		Chọn thuộc tính name của mỗi đối tượng ClassRoom làm nhãn để hiện thị ra cho mỗi option.
+		
+		
+**************  BÀI 4: THYMELEAF ***************
+
+1. Khái niệm về Thymeleaf: là bộ xử lý view, sd trong các ứng dụng web và các
+ứng dụng độc lập. Được xây dựng phù hợp với tiêu chuẩn của web, đặc biệt là html
+(html 5)
+- Cho phép xử lý các loại template: html, xml, text, javascript, css, raw.
+
+2. Các biểu thức của Thymeleaf:
+
+- Biểu thức với biến: ${}
+- Biểu thức với thuộc tính: *{}
+- Biểu thức với message: #{}
+- Biểu thức với URL: @{}
+- Biểu thức phân đoạn: ~{}
+
+3. Vòng lặp trong THYMELEAF
+
+Vd: <tr th:each="student,loopStatus :${studentList}">
+		
+		<td th:text="${loopStatus.count}"></td>
+		
+		<td th:text="${student.id}>
+		<td th:switch="${student.gender">
+			<span th:case="1" th:text="Male"></span>
+			<span th:case="0" th:text="Female"></span>
+			<span th:default th:text="LGBT"></span> 
+		</td>
+		
+		<td th:each="language :${student.languageList}" th:text="${language} + ',' "></td>
+	</tr>
+	
+4. form với Thymeleaf
+
+<form th:object="${student}" th:action="@{/student/create}" method="post">
+	<input th:field="*{id}">
+	<input th:field="*{name}">
+	<input type="radio" th:field="*{gender}" th:value="1" th:text="Male">
+	<input type="radio" th:field="*{gender}" th:value="0" th:text="Female">
+	<input type="radio" th:field="*{gender}" th:value="2" th:text="LGBT">
+	<input type="checkbox"  th:field="*{languages}" 
+		th:each="language:${languageList}" th:text="${language} th:value="${language}"'/>
+		
+		***Chú ý: languages trong field là thuộc tính của student, chứa danh sách các ngôn ngữ lập trình.
+		Khi ta check vào các box để chọn các ngôn ngữ thì nó được ánh xạ luôn vào thuộc tính này.
+		***Chú ý: languageList là danh sách các ngôn ngữ ta truyền từ controller sang
+		để nó hiện thị lên form cho người dùng chọn.
+</form>
+
+5. Câu điều kiện trong Thymeleaf
+
+		th:if="dieu_kien"
+
+th:if trả về true trong các trường hợp sau:
++ dieu_kien: là 1 giá trị boolean true
++ dieu_kien: là 1 giá trị khác 0
++ dieu_kien: là 1 chuỗi ký tự khác "0"
++ dieu_kien: là 1 chuỗi khác các chuỗi "false", "no", "off"
++ dieu_kien: là 1 giá trị không phải boolean, số, ký tự hoặc chuỗi.
+
+*********  BÀI 5: ORM ***********
+
+1. Khái niệm về ORM
+- Object Relational Mapping, là 1 kỹ thuật liên kết giữa các đối tượng trong
+lập trình với các đối tượng trong CSDL.
+--> ORM cho phép ta truy xuất dễ dàng đến dữ liệu thông qua các đối tượng
+lập trình mà khôg cần quá quan tâm đến CSDL. 
+			Object(OOP) -> ORM <- Table(RDB)
+Giúp cho việc thay đổi csdl cũng đơn giản hơn. Ví dụ đổi từ mysql -> sql server.
+Ta chỉ cần sửa lại phần config là ok. Các câu query ko ảnh hưởng nhiều.
+
+2. Ưu điểm của ORM:
+- Quản lý dữ liệu tập trung trong code.
+- Tránh được các lỗi liên quan đến SQL.
+- Hỗ trợ giao dịch(transaction) 
+- Hỗ trợ bộ nhớ đệm cache -> lần truy xuất sau sẽ truy xuất nhanh hơn.
+
+3. Nhược điểm của ORM:
+- Lập trình viên dễ rơi vào bẫy truy xuất dữ liệu( vì quá dễ truy xuất do
+sd hàm hỗ trợ có sẵn -> truy xuất nhiều hơn mức cần thiết)-> ảnh hưởng đến
+hiệu năng của chương trình.
+- Đối với các thao tác phức tạp, có thể cần đến việc sử dụng sql thuần(
+thuần nhưng ko phải sd JDBC, mà là tự viết câu lệnh query và ORM sẽ 
+thực hiện câu lệnh query đó giúp ta)
+
+4. Khái niệm về JPA và Entity
+- Java Persistence API - JPA cung cấp các đặc tả(interface) để duy trì, đọc,
+quản lý dữ liệu từ đối tượng java sang các quan hệ trong CSDL.
+- JPA chỉ chứa các interface.
+- Hibernate sẽ triển khai các abstract method của JPA.
+- JPA cung cấp 1 cái mô hình POJO persistence - cho phép ánh xạ các 
+table/các mối quan hệ trong Database sang các class/mối quan hệ giữa các Object.
+- JPA quản lý các Entity:
++ Là đối tượng đại diện cho dữ liệu trong ứng dụng.
++ Entity thường là POJO.
++ Entity sẽ được ánh xạ tới 1 bảng trong csdl.
++ Để ánh xạ được, 1 entity cần tuân thủ các điều sau:
+		- Khai báo @Entity(name="ten_bang") trên class của entity đó.
+		- Phải có 1 constructor không tham số, để access modifire là public.
+		- Không được khai báo final.
+		- Các thuộc tính không khai báo public.
+		- Đối với các thuộc tính của entit thì nên:
+		@Column(name="date_of_birth", columnDefinition="DATE")
+		private String dateOfBirth;
+		- Với khóa chính:
+		@Id
+		@GeneratedValue(stratery = GenerationType.IDENTITY)
+		private Integer id;
+		- Với khóa chính là chuỗi ta có thể Custom GeneratedValue.
+		
+5. Persistence Context và Entity Manager trong Spring.
+-  Persistence Context là 1 tập các thể hiện của Entity được quản lý, 
+tồn tại trong 1 kho dữ liệu.
+	Persistence Context là nơi mà JPA quản lý các đối tượng của bạn khi 
+	chúng được đọc từ cơ sở dữ liệu hoặc khi bạn lưu các thay đổi vào cơ sở 
+	dữ liệu.
+	Khi một đối tượng được đọc từ cơ sở dữ liệu, nó trở thành một phần của Persistence Context.
+	Mục tiêu của Persistence Context là đảm bảo sự nhất quán giữa dữ liệu 
+	trong cơ sở dữ liệu và các đối tượng trong ứng dụng.
+	
+	Persistence Context cũng hoạt động như một cache đối tượng. 
+	Khi bạn truy vấn cơ sở dữ liệu để đọc một đối tượng, 
+	JPA có thể kiểm tra xem đối tượng đã được tải vào Persistence Context chưa.
+	Nếu đã tồn tại, nó có thể trả về đối tượng từ Persistence Context 
+	thay vì thực hiện một truy vấn mới.
+	
+- Entity Manager: cung cấp các phương thức để tương tác với Persistence Context.
+
+6. HQL - Hibernate Query Language
+VD: "select s from Student s"
+
+7. Câu lệnh truy vấn động và truy vấn tĩnh.
+- Truy vấn động: có thể truyền tham số trong quá trình runtime.
+				--> tránh được lỗ hổng bảo mật sql injection
+- Truy vấn tĩnh: Truy vấn tĩnh là loại truy vấn mà bạn xác định 
+và xây dựng tại thời điểm biên dịch 
+-> truyền tham số cố định tại quá trình compile. -> dễ bị sql injection
+
+- createQuery() --> hàm giúp ta truy vấn động.
+- createNamedQuery --> truy vấn tĩnh.
+
+- Có 2 cách để truyền tham số vào truy vấn động
+(Trong JPQL (Java Persistence Query Language) hoặc HQL (Hibernate Query Language)):
++) Sử dụng nameParam và phương thức setParameter("nameParam", value)
+	
+	String jpqlQuery = "SELECT e FROM Employee e WHERE e.department = :dept AND e.salary > :minSalary";
+	TypedQuery<Employee> query = entityManager.createQuery(jpqlQuery, Employee.class);
+	query.setParameter("dept", someDepartment);
+	query.setParameter("minSalary", minSalary);
+	List<Employee> result = query.getResultList();
+	
++) Sử dung ?vịtrí tham số và phương thức setParameter(vị trí, vlaue)
+	
+	String jpqlQuery = "SELECT e FROM Employee e WHERE e.department = ?1 AND e.salary > ?2";
+	TypedQuery<Employee> query = entityManager.createQuery(jpqlQuery, Employee.class);
+	query.setParameter(1, someDepartment);
+	query.setParameter(2, minSalary);
+	List<Employee> result = query.getResultList();
+	
+8. entityManagerFactory và entityManager
+
+- EntityManagerFactory:
+
+EntityManagerFactory là một đối tượng tạo ra các đối tượng EntityManager. 
+Nó đại diện cho một "container" cho các đối tượng quản lý.
+Thường thì chỉ cần tạo một đối tượng EntityManagerFactory trong suốt thời gian
+chạy của ứng dụng. Điều này được thực hiện bằng cách sử dụng một cơ chế 
+quản lý lifecycle như Dependency Injection hoặc Singleton pattern.
+EntityManagerFactory chịu trách nhiệm về việc quản lý các thông số cấu hình, 
+đối tượng kết nối cơ sở dữ liệu, và các thiết lập khác cần thiết để tạo và 
+quản lý EntityManager.
+	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+
+- EntityManager:
+
+EntityManager là một giao diện cho phép tương tác với cơ sở dữ liệu thông qua
+JPA. Mỗi EntityManager liên kết với một "đơn vị kiểm soát (persistence unit)"
+cụ thể được định nghĩa trong tệp persistence.xml.
+Thường thì mỗi truy vấn hoặc thao tác với cơ sở dữ liệu sẽ sử dụng một EntityManager mới. 
+EntityManager được tạo ra và đóng khi cần thiết.
+EntityManager thực hiện các phương thức như persist, merge, remove, và find để 
+quản lý đối tượng trong cơ sở dữ liệu.
+
+	EntityManager entityManager = entityManagerFactory.createEntityManager();
+	
+	// Example of using EntityManager
+	entityManager.getTransaction().begin();
+	MyEntity entity = new MyEntity();
+	entityManager.persist(entity);
+	entityManager.getTransaction().commit();
+
+
+*********** BÀI 6 ORM JPA HIBERNATE, Spring Data JPA  *************
+
+1. Phân biệt ORM, JPA, Hibernate
+- ORM, JPA 
+- Hibernate: là 1 ORM Framework. Hibernate implements các interface của JPA.
+
+2. Spring Data JPA
+- Giúp ta triển khai JPA trong ứng dụng Spring 1 cách dễ dàng hơn.
+(không cần phải cấu hình EntityManagerFactory, EntityManager như JPA thuần bài 5)
+-> cải tiến JPA tiêu chuẩn -> đơn giản hóa tầng truy xuất -> tự tạo ra repository,
+tạo ra các câu lệnh truy vấn thông qua tên phương thức. Ngoài ra, giúp ta ghi log, 
+hay dễ dàng hơn khi thực hiện phân trang.
+- Spring Data là 1 module của dự án Spring.
+  Data JPA là 1 phần của Spring Data.
+  
+3. Các interface trong Spring Data Repository.
+- JpaRepository(mới nhất, có all chức năng của 3 thằng kia)
+- PagingAndSortingRepository
+- CrudRepository
+- Repository(cũ nhất)
+
+pulic interface IStudentRepository extends JpaRepository<Student, Integer>{}
+-> Student là entity muốn tương tác với database
+-> Integer là kiểu dữ liệu của khóa chính(thường là id của entity)
+
+4. Các phương thức có sẵn
+- findById(idStudent).orElse(null) : nếu ko thấy trả về null.
+- save(student) : save dùng cho cả cập nhật(khi có id) và 
+				  cả thêm mới(khi ko có id trong database)
+- delete(student)
+- delete(id)
+
+5. Tự tạo phương thức 
+pulic interface IStudentRepository extends JpaRepository<Student, Integer>{
+	
+	// cách 1:
+	List<Student> findAllByNameContaining(String name);
+	
+	// cách 2:
+	@Query(câu truy vấn)
+	List<Student> searchByName(String name);
+
+CHÚ Ý:	@Query(...) -> giúp ta viết theo 2 ngôn ngữ là SQL và HQL
+	- Nếu @Query(..., nativeQuery = true) -> viết truy vấn theo ngng SQL
+	- Nếu @Query(...) or @Query(..., nativeQuery = false) -> theo ngng HQL
+	
+	- Nếu có tham số trong câu truy vấn có thể sd 2 cách:
+	"SELECT e FROM Employee e WHERE e.department = ?1 AND e.salary > ?2"
+	List<Employee> searchByName(String department, double salary);
+hoặc
+	@Query("SELECT e FROM Employee e WHERE e.department = :dept AND e.salary > :minSalary")
+	List<Employee> searchByName(@Param("dept") String department, @Param("minSalary") double minSalary);
+	
+	-->  sử dụng @Param để ánh xạ giá trị từ các tham số của phương thức vào các tham số trong câu truy vấn.
+}
+
+6. @ManyToOne và @OneToMany.
+Lưu ý: Trong 2 trường hợp sau, không nên/không cần dùng @OneToMany, 
+dùng mỗi bên @ManyToOne cũng OK:
+	- Không dùng đến list.
+	- Không sử dụng casade.
+("Cascade" là một thuật ngữ thường được sử dụng trong ngữ cảnh của ORM (Object-Relational Mapping) 
+để mô tả cách quản lý và tự động lan truyền các thay đổi từ một đối tượng đến 
+các đối tượng liên quan.)
