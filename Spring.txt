@@ -433,8 +433,8 @@ pulic interface IStudentRepository extends JpaRepository<Student, Integer>{
 	List<Student> searchByName(String name);
 
 CHÚ Ý:	@Query(...) -> giúp ta viết theo 2 ngôn ngữ là SQL và HQL
-	- Nếu @Query(..., nativeQuery = true) -> viết truy vấn theo ngng SQL
-	- Nếu @Query(...) or @Query(..., nativeQuery = false) -> theo ngng HQL
+	- Nếu @Query(value="...", nativeQuery = true) -> viết truy vấn theo ngng SQL
+	- Nếu @Query(...) or @Query(value="...", nativeQuery = false) -> theo ngng HQL
 	
 	- Nếu có tham số trong câu truy vấn có thể sd 2 cách:
 	"SELECT e FROM Employee e WHERE e.department = ?1 AND e.salary > ?2"
@@ -454,3 +454,33 @@ dùng mỗi bên @ManyToOne cũng OK:
 ("Cascade" là một thuật ngữ thường được sử dụng trong ngữ cảnh của ORM (Object-Relational Mapping) 
 để mô tả cách quản lý và tự động lan truyền các thay đổi từ một đối tượng đến 
 các đối tượng liên quan.)
+ 
+************* BÀI 7 SPRING BOOT ************
+
+1. Tổng quan về Spring boot
+- Spring boot là 1 trong các module của Spring, cung cấp tính năng RAD.
+RAD - Rapid Application Development.
+-> Tạo 1 ứng dụng độc lập dựa trên Spring mà có thể chạy ngay với ít cấu hình.
+-> Không cần dùng xml để cấu hình mà thay vào đó nó sử dụng quy ước để cấu hình.
+-> giảm tải công việc cho lập trình viên.
+
+2. Ưu điểm của Spring BOOT
+- Cũng cấp sẵn các thư viện "starter" để đơn giản hóa cấu hình maven hoặc gradle
+- Tự động cấu hình spring khi có thể -> ko yêu cầu cấu hình bằng xml, mà cấu hình
+bằng file java.
+- Được nhúng sẵn Tomcat, Jetty hoặc Undertow.-> ko cần triển khai các tệp war.
+- Tạo ứng dụng Spring độc lập có thể được chạy bằng cách sử dụng lệnh java.
+- Cung cấp các tính năng "ăn liền": đo đếm số liệu, kiểm tra cấu hình của ứng dụng.
+
+3. Phân trang bằng pageable và slide.
+- Interface PagingAndSortRepository: có thêm chức năng phân trang và sắp xếp.
+Cho phép truyền các tham số đặc biệt: Pageable, Slice, Sort.
+- Pageable và Slice đều hỗ trợ phân trang nhưng:
++) Pageable biết được tổng số trang -> Slice thì không.
++) Slice có hiệu năng tốt hơn -> do ko cần đếm tổng số trang -> thường dùng cho 
+trường hợp dữ liệu lớn.
+
+4. Converter và Formatter
+- Chuyển đổi dữ liệu nhập vào thành kiểu dữ liệu phù hợp.
+- Converter có thể sử dụng chung cho toàn bộ các tầng của ứng dụng.
+- Formatter chỉ sử dụng được tầng web(web tier)

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Blog Home</title>
+<link th:href="@{css/bootstrap.min.css}" type="text/css" rel="stylesheet"/>
+<style type="text/css">
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+
+</head>
+<body>
+<div align="center">
+<h1>Danh sách Blog</h1>
+
+<form action="list" method="get">
+
+		<input type="text" th:name="authorName" th:value="${authorNameValue}" placeholder="Tìm kiếm theo tên tác giả..."/>
+		
+		<select th:name="ecomId">
+			<option disabled="disabled" selected >Có thể chọn tên ECommerce</option>
+			<option value="">Tất cả</option> <!-- nếu để là th:value="" => error  -->
+			<th:block th:each = "ecommerce : ${ecommerceList}">		
+				<option th:selected = "${ecomID == ecommerce.id}"  th:value="${ecommerce.id}" th:text= "${ecommerce.name}"/>
+			</th:block>
+		</select>
+				
+		<input type="submit" value="Search"/>
+</form> 
+
+<table style="margin-top: 16px; width:50%; text-align: center;">
+	<thead>
+		<tr>	
+			<th>ID</th>
+			<th>Topic</th>
+			<th>Author</th>
+			<th>ECommerce</th>
+			<th>Action</th>
+		
+		</tr>
+	</thead>
+	<tbody>
+		<th:block>
+		<tr th:each="blog : ${blogList}">
+			<td th:text="${blog.id}"></td>
+			<td th:text="${blog.topic}"></td>
+			<td th:text="${blog.author}"></td>
+			<td th:text="${blog.eCommerce.name}"></td>
+			<td>action</td>
+		</tr>
+		</th:block>
+	
+	</tbody>
+</table>
+
+<p th:if = "${blogList == null}">Vui lòng điền thông tin bạn muốn tìm kiếm.</p>
+
+<p  th:if = "${blogList != null && blogList.isEmpty()}">Không tìm thấy kết quả thỏa mãn.</p>
+<!--TẠi Vì:  Trong Spring Data JPA, khi bạn sử dụng phương thức truy vấn với Page, nếu không có kết quả nào, 
+Spring Data JPA sẽ trả về một Page trống (không có phần tử) thay vì null. 
+Bạn có thể kiểm tra xem trang có rỗng hay không bằng cách sử dụng phương thức isEmpty() của Page. -->
+
+
+</div>
+
+<br>
+
+<div style="display: flex;justify-content: center;">
+	<ul class="pagination" th:if="${blogList.totalPages > 0}">
+	
+		<li th:if="${blogList.hasPrevious()}" class="page-item">
+			<a th:href="@{'/list'(page=${blogList.number}, authorName=${authorNameValue}, ecomId=${ecomID})}" class="page-link">&lt;&lt;</a>
+			<!-- tại sao lại là blogList.number mà ko cần - 1.
+			trước tiên phải hiểu blogList.number chính là current page trong spring.
+			vì thực chất ví dụ: khi hiển thị trên UI là page=5, nhưng thực ra blogList.number là 4
+			(do ta cố tình +1 để hiện lên UI bắt đầu từ 1 chứ không phải 0.)
+			(Xong ở phía controller ta lại -1 để truyền vào hàm find... cho chính xác)
+			Do đó, khi UT hiện ở trang 5, thì ta bấm vào << nó sẽ thành 4 (do blogList.number là 4 )
+			tương tự hiện ở trang 4, thì ta bấm vào << nó sẽ thành 3(do blogList.number là 3)
+			
+			Còn khi >> thì ta phải cộng lên 2. Vì trang đang active đã +1 rồi-> nghĩa là blogList.number + 1,
+			nên ta phải cộng thêm 1 nữa để đến trang tiếp theo => blogList.number + 1 + 1 thành blogList.number + 2 -->
+			
+		</li>
+			
+		<li th:each="pageNo : ${#numbers.sequence(0, blogList.totalPages - 1)}" th:class="${pageNo == blogList.number}? 'page-item active' : 'page-item'">
+	        <a th:href="@{'/list'(page=${pageNo + 1}, authorName=${authorNameValue}, ecomId=${ecomID})}" th:text="${pageNo + 1}" class="page-link"></a>
+	    </li>
+	    
+		<li th:if="${blogList.hasNext()}" class="page-item">
+			<a th:href="@{'/list'(page=${blogList.number + 2}, authorName=${authorNameValue}, ecomId=${ecomID})}" class="page-link">&gt;&gt;</a>
+		</li>
+					
+	</ul>
+	
+</div>
+
+
+
+</body>
+</html>
