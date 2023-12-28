@@ -53,8 +53,8 @@ dispatcher-servlet.xml: config cho Spring biết được là tạo bean ở cá
 code nhiều logic ở controller, logic ở service giải quyết), thường gọi model
 để nhận dữ liệu, sau khi dữ liệu được xử lý thì trả về lại cho view.
 - Để tạo Controller, ta phải tạo class và implements interface Controller.
-Nhưng từ Spring2.5 ta sd annotation @Controller hoặc @RestController để khai
-báo 1 controller cho Class.
+	Nhưng từ Spring2.5 ta sd annotation @Controller 
+	hoặc @RestController(dùng cho web service) để khai báo 1 controller cho Class.
 
 2. @Controller và @RestController
 @Controller: khai báo controller trong ứng dụng website truyền thống.
@@ -484,3 +484,391 @@ trường hợp dữ liệu lớn.
 - Chuyển đổi dữ liệu nhập vào thành kiểu dữ liệu phù hợp.
 - Converter có thể sử dụng chung cho toàn bộ các tầng của ứng dụng.
 - Formatter chỉ sử dụng được tầng web(web tier)
+
+
+************* BÀI 8 VALIDATION ************
+
+1. Khái niệm và ý nghĩa của Validation.
+- Validation thực hiện đánh giá/xác minh tính hợp lệ của dữ liệu đầu vào.
+
+2. Các tầng có thể validate
+- view/UI
+- controller, business layer
+- data layer.
+---> Spring hỗ trợ validation ở tầng Business layer.
+
+3. Các annotation dùng để validate trong Spring.
+- @NotNull	(bắt khi giá trị là null),
+  @NotEmpty	(bắt khi giá trị ko null, nhưng rỗng),
+  @NotBlank	(bắt khi giá trị ko null,ko empty nhưng toàn dấu cách )
+- @Size(min=, max=)	 -> độ dài của chuỗi, số
+  ví dụ: @Size(min=2, max=2) -> chạy từ 10 -> 99
+- @Max, @Min 		 -> chỉ áp dụng cho kiểu số.
+- @Pattern
+- @Email -> của spring không chặt chẽ lắm, nó chỉ bắt có @ hay không.
+- @Range(min = 1, max = 100) -> value chỉ được trong khoảng 1 -> 100
+
+4. @Valid và @Validated
+- @Valid : validate cho toàn bộ thuộc tính của model
+- @Validated : validate 1 phần/nhóm của model.
+- Lưu ý: BindingResult phải luôn luôn nằm ngay sau model.
+  Nếu có 2 model thì cần 2 BindingResult.
+VD: 
+public String saveStudent(@Valid @ModelAndAttribute("student") Student student,
+						  BindingResult bindingResult{
+	if(bindingResult.hasError()){
+		/// return lại chính trang nhập dữ liệu đó.
+		
+		//Ưu điểm của bindingResult :
+		// Nếu có lỗi thì BindingResult sẽ trả lại html nguyên si dữ liệu
+		// mà trước đó ta đã nhập.
+	}
+	///
+}
+
+5. Các cách khác để validate
+
+- Tự Custom validation: implements Validator -> interface của Spring FRAMEWORK
+- Tự tạo annotation 
+
+ *********** BÀI 9 : AOP ************
+ 
+1. KHái niệm AOP - Aspect Oriented Programming - Lập trình hướng khía cạnh.
+ - Là 1 kỹ thuật lập trình, nhằm phân tách chương trình thành các module riêng
+lẻ, phân biệt và không phụ thuộc lẫn nhau. -> phù hợp với dự án lớn.
+ - AOP không phải để thay thế OOP, mà là bổ sung cho OOP.
+
+2. Khái niệm về Aspect(khía cạnh).
+ - Là những mối quan tâm xuyên suốt AOP.
+ - Lập trình AOP -> phân tách các module -> mỗi module sẽ thực hiện 1 nhiệm vụ
+ thì aspect là 1 class thực hiện nhiệm vụ này: advice và join point.
+ Ví dụ facebook sẽ 1 aspect chuyên để ghi log theo dõi màn hình người dùng,
+ khi ta chuyển sang màn hình shoppe search sản phẩm, nó sẽ ghi lại, và đặt 
+ quảng cáo về sản phẩm đó trên trang facebook của ta.
+-> đó cũng được coi là 1 aspect, nó ko làm ảnh hưởng đến luồng chạy chính
+của facebook.
+
+3. Các thuật ngữ quan trọng trong AOP.
+- 2 loại concern: 
++) Core concern/primary concern: là requirement, logic xử lý chính của chương
+trình(CRUD, tìm kiếm,...)
++) Cross-cutting concern: là logic xử lý phụ: bảo mật, ghi log, theo dõi, giám
+sát.
+
+- Jointpoint: là 1 điểm trong chương trình, là những nơi có thể chèn cross-cutting
+concern.
+  1 joinpoint có thể là 1 phương thức đuọc gọi, 1 throw được ném ra hoặc 1 field
+  bị thay đổi.
+- Pointcut: có nhiều cách để xác định joinpoint, những cách như vậy được gọi là 
+pointcut -> kiểm tra nó có khớp với joinpoint hay không -> khớp thì advice thực hiện.
+- Advice: những xử lý phụ được thêm vào xử lý chính, code đó được gọi là advice.
+1:08:43 / 1:31:27
+
+********** BÀI 10 SESSION VÀ COOKIE **********
+
+1. Khái niệm về cookie:
+- Là các tệp được trang web người dùng truy cập tạo ra.
+-> giúp trải nghiệm người dùng tốt bằng cách lưu thông tin duyệt web.
+-> Tác dụng: duy trì trạng thái đăng nhập, ghi nhớ tùy chọn web, cung cấp
+nội dung phù hợp với ví trí của người dùng.
+- tệp tincookie được truyền từ server và lưu tại máy của người dùng.
+- Dù có tắt browser cũng không mất đi các giá trị của cookie vì chúng ta
+đã lưu nó trên máy tính của mình.
+
+2. Cách sử dụng Cookie trong Spring.
+- Khởi tạo cookie:
+	Cookie cookie = new Cookie("nameCookie", value) => lưu ý: "nameCookie" và value phải là String
+	cookie.setMaxAge(60*60*24) -> 1 ngày, tính theo giây.
+	response.addCookie(cookie);
+	
+- Ta sd annotation để lấy giá trị của cookie:
+	@CookieValue("nameCookie") DataType nameCookie;
+  Đặt annotation trong phần tham số của handle method.
+	
+- Xóa cookie của client từ phía server:
+	+B1 Đọc lại cookie đang tồn tại trong client.
+	+B2 set thời gian sống về 0
+	+B3 trả về cho client.
+	
+3. SESSION
+- Session là 1 phiên làm việc giữa client và server.
+- 1 phiên làm việc bắt đầu khi client thực hiện request đầu tiên đến server
+và kết thúc khi client dừng làm việc với server.
+- Các trường hợp kết thúc phiên làm việc:
+ +) Đóng tag hoặc đóng browser(tuy nhiên, SESSIONID phía client ko bị xóa).
+ +) Khi log out
+ +) Khi trong 1 khoảng thời gian client ko tương tác với server.
+- Trong 1 phiên làm việc thì biến session sẽ được tạo ra và lưu trữ trên server.
+- Session hoạt động dựa trên cookie(JSESSIONID).
+
+4. Cách sử dụng Session trong Spring.
+- @SessionAttributes:(chú ý: có "s") để khai báo session
+- @ModelAttribute bên ngoài phương thức -> để khởi tạo session.
+- @ModelAttribute trong tham số của handle method để tương tác với session
+NHƯNG CHỈ SỬ DỤNG ĐƯỢC BÊN TRONG CONTROLLER TẠO RA SESSION ĐÓ.
+- @SessionAttribute: (chú ý:không có "s")trong tham số của handle method để tương tác với session
+nhưng chỉ sử dụng bên ngoài controller tạo ra session đó.
+
+5. So sánh Session và Cookie.
+- Giống: đều tạo ra dữ liệu trong quá trình sử dụng và tương tác.
+- Khác:
++) Cookie lưu trữ phía client, session lưu trữ phía server.
++) Có thể set thời gian sống cho cookie. Còn thời gian sống của session chỉ 
+trong 1 phiên làm việc.
++) Session có thể lưu trữ nhiều kiểu dữ liệu khác nhau. 
+Còn Cookie chỉ có thể lưu trữ kiểu String.
++) Session hoạt động dự trên cookie.
+
+******* BÀI 11 WEB SERVICE **********
+
+1. Khái niệm về Webservice.
+
+PC,mobile,... <-> API <-> Server
+
+- Web service (dịch vụ web) là các thành phần ứng dụng được hiển thị dưới dạng
+các dịch vụ trên www.
+- Web service có thể sử dụng để tích hợp với các ứng dụng được viết bằng các
+ngôn ngữ lập trình khác nhau và chạy trên nhiều nền tảng khác nhau.
+-> Vì nó có chuẩn mở và sử dụng các giao thức mở để giao tiếp.
+- Web service hoạt động như 1 server(bank-end) trong mô hình client - server.
+-> giao tiếp thông qua giao thức HTTP/HTTPS.
+- Với dữ liệu đầu vào xác định, web service xử lý và trả về dữ liệu theo 1
+chuẩn đảm bảo mọi ứng dụng có thể hiểu và sử dụng mà không cần quan tâm đến
+loại thiết bị, hệ điều hành, kiến trúc phần mềm hay ngôn ngữ lập trình được sd.
+-> nó thường trả về dữ liệu kiểu JSON hoặc XML.
+
+2. So sánh Webservice và Website truyền thống.
+
+- Website:
++) Có giao diện người dùng hoặc GUI.
++) Hiểu là được sử dụng bởi con người.
++) Hoạt động đa nền tảng, vì chúng yêu cầu tinh chỉnh để hoạt động trên các
+trình duyệt hay hệ điều hành khác nhau.
++) Được truy cập bởi các thành phần trong giao diện người dùng như button,
+textbox, form,....
+
+-> NẾU VÍ TRONG DỰ ÁN CỦA TA THÌ CONTROLLER SẼ TRẢ VỀ VIEW.
+
+- Web service:
++) Không có giao diện người dùng, chỉ có dữ liệu khô khan. Sau đó Front-End sẽ
+lấy dữ liệu đó đổ ra giao diện cho người dùng.
++) Hiểu là được sử dụng bởi các ứng dụng tương tác với nhau qua internet.
++) Độc lập về nền tảng và tất cả dạng truyền thống đều sử dụng giao thức chuẩn.
++) Được truy cập bởi phương thức HTTP: PUT, GET, POST, DELETE,....
+Ví dụ: Google Maps API
+
+-> NẾU VÍ TRONG DỰ ÁN CỦA TA THÌ CONTROLLER CHỈ TRẢ VỀ DỮ LIỆU THÔI.
+   Rồi từ dữ liệu đó Front-End sẽ đổ vào view tương ứng.
+
+3. Ưu nhược điểm của webservice.
+
+- Nhược điểm chính:
++) Một khi web service chết hoặc dừng hoạt động -> gây ra lỗi.
+Ví dụ facebook  dừng cho các website khác sử dụng api login bằng facebook
+thì các web đó sẽ lỗi.
++) Cần quan tâm đến vấn đề an toàn và bảo mật nhiều hơn với web service khi 
+public cho bên thứ 3 sử dụng.
++) Việc có quá nhiều chuẩn cho web service dẫn đến người sử dụng khó nắm bắt.
+
+- Ưu điểm:
++) Hoạt động trên các ứng dụng, nền tảng, hệ điều hành khác nhau.
++) Khả năng tái sử dụng cao -> nên giúp giảm thời gian phát triền và giảm sự 
+phức tạp của hệ thống.
++) Giúp xây dựng ứng dụng phân tán.
+	Một ứng dụng phân tán là một hệ thống phần mềm mà các thành phần chức năng của
+	nó được triển khai trên nhiều máy tính hoặc nhiều nơi khác nhau trong một mạng. 
+	Trong môi trường này, các thành phần của ứng dụng hoạt động cùng nhau để thực 
+	hiện một tác vụ cụ thể. Các thành phần này có thể giao tiếp với nhau thông qua 
+	mạng để chia sẻ dữ liệu, tài nguyên, hoặc để thực hiện các nhiệm vụ phức tạp.
+
+4. Các loại webservice.
+
+Có 2 loại chủ yếu:
+- SOAP(Simple Object Access Protocol) là giao thức sử dụng XML để định nghĩa
+dữ liệu và truyền dữ liệu thông qua HTTP.
+- REST(Representational State Transfer) định nghĩa dữ liệu JSON và XML, truyền
+thông qua mạng internet sử dụng giao thức HTTP.
+JSON(JavaScript Object Notation)
+--> Các web mà phát triền dựa trên REST -> RESTful.
+- CÁC phương thức HTTP:
++) GET : lấy tài nguyên từ server.
++) POST : tạo thêm mới tài nguyên.
++) DELETE : xóa tài nguyên.
++) PUT : Cập nhật 1 tài nguyên nào đó.
++) PATCH : Cập nhật 1 phần của tài nguyên nào đó.
+
+TRONG SPRING BOOT: ta dùng @RestController ở controller để xây dựng web service.
+
+Cụ thể, chức năng của @RestController bao gồm:
+
+ +) Kết hợp @Controller và @ResponseBody: @RestController tự động thêm @ResponseBody 
+	vào mọi phương thức trong controller. ĐIỀU NÀY CÓ NGHĨA LÀ KẾT QUẢ CỦA MỖI PHƯƠNG 
+	THỨC SẼ ĐƯỢC CHUYỂN ĐỔI THÀNH ĐỊNH DẠNG JSON HOẶC XML VÀ TRẢ VỀ TRỰC TIẾP CHO 
+	CLIENT, thay vì điều hướng đến một trang web cụ thể.
+
+ +) Giảm độ phức tạp của việc tạo RESTful web service: Bằng cách sử dụng @RestController, 
+    bạn có thể tạo ra các endpoint của API mà không cần sử dụng @ResponseBody cho từng 
+	phương thức riêng lẻ.
+
+Ví dụ:
+@RestController
+@RequestMapping("/api")
+public class MyRestController {
+
+    @GetMapping("/hello")
+    public String sayHello() {
+        return "Hello, World!";
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        // Logic to retrieve user by ID
+		
+		try{
+			User user = userRepository.findById(id).orElse(null);
+
+			if (user != null) {
+				return new ResponseEntity<>(user, HttpStatus.OK); => ok thì trả về user đó và trạng thái. // 200
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND); => ko user null thì trả về trạng thái NOT_FOUND //404
+			}	
+		}catch(Exception e){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //400
+		}
+        
+    }
+}
+
+********* Bài 12 AJAX ***********
+
+1. Ajax
+- Asynchronous JavaScript and XML là 1 nhóm các công nghệ phát triển web được
+sử dụng để tạo các ứng dụng giàu tính tương tác(bình luận, like,...), nhanh hơn, 
+mượt hơn với sự giúp đỡ của XML, HTML, CSS và JavaScript.
+-> vì nó sử dụng cơ chế bất đồng bộ để trao đổi 1 lượng dữ liệu nhỏ với server.
+- Với Ajax, người dùng có thể tiếp tục sử dụng trang web trong khi chương trình
+trên client tạo request và lấy thông tin từ server.
+- Ajax không phải công nghệ của jQuery, jQuery chỉ hỗ trợ viết Ajax dễ dàng hơn.
+- Ta có thể kết hợ web service(api) với ajax.
+
+2. Bất đồng bộ là gì? Cơ chế xử bất đồng bộ trong javascript.
+(https://viblo.asia/p/co-che-bat-dong-bo-trong-javascript-jvElaO1zKkw)
+
+3. Các thành phần cơ bản của Ajax.
+- HTML&CSS: hiển thị dữ liệu
+- Javascript
+- DOM
+- Đối tượng XMLHttpRequest: trao đổi dữ liệu 1 cách bất đồng bộ với server.
+- XML hoặc JSON: định dạng dữ liệu truyền đi.
+
+4. Ưu nhược điểm của AJAX.
+- Nhược điểm:
++) Nó không thể lưu lịch sử duyệt web -> đo đó nút back sẽ mất tác dụng.
++) Không thể bookmark trang ajax.
++) Nếu trình duyệt ko hỗ trợ JS hoặc vô hiệu hóa JS -> ko dùng được AJAX.
++) Nếu dev ko kiểm thử hết các trường hợp thì dễ bị tấn cổng bởi các đoạn mã độc.
+
+- Ưu điểm:
++) Cập nhật lại trang nếu có sự thay đổi dữ liệu -> giảm băng thông và thời
+gian load trang.
++) Việc dùng request bất đồng bộ thì giúp trải nghiệm người dùng cải thiện hơn.
++) Làm giảm các kết nối với server, do các mã js và css chỉ yêu cầu 1 lần.
+
+
+******** BÀI 13: Spring i18n *******
+
+1. Khái niệm và ý nghĩa là i18n(internationalization - quốc tế hóa)
+- Là quá trình thiết kế 1 ứng dụng phần mềm đáp ứng được nhiều ngôn ngữ(anh, việt, nhật,..)
+khác nhau mà không cần thay đổi kỹ thuật.
+
+2. Khái niệm L10N(Localization - địa phương hóa)
+- Là quá trình điều chỉnh phần mềm đã được quốc tế hóa cho 1 ngôn ngữ hoặc 1
+khu vực cụ thể bằng cách chỉ định ngôn ngữ hoặc khu vực sau khi dịch văn bản.
+-> Sự kết hợp của L10N và I18N được gọi là G11N(Globalization)
+
+3. Interceptor và LocaleResolver
+- Interceptor: sẽ được đính vào trong 1 vòng đời của request.
+	Có khả năng xử lý tiền và hậu các request.
+	Được dùng phổ biến để internationlize.
+- RecaleResolver: có thể phân giải message dựa trên thông tin về locale trong
+request hoặc từ session, cookie.
+
+		
+****** Bài 14: Authentication *******
+
+1. Khái niệm về Authentication
+  Là 1 hành động nhằm thiết lập hoặc chứng thực 1 thông điệp hoặc đối tượng 
+  nào đó là đáng tin cậy -> hệ thống sẽ tin vào những lời khai báo cũng như
+  thông điệp từ đối tượng đó đưa ra.
+
+2. Các cơ chế xác thực.
+
+# Cách 1: HTTP basic: xác thực thông qua username và password.
+
+# Cách 2: Cookies. Sau khi đăng nhập bằng username và password thành công,
+server sẽ trả về cho ta 1 cookie chứa sessionid. Vào lần đăng nhập sau ta chỉ
+cần dùng cookie là đăng nhập được.
+
+# Cách 3: JWT(Json web token): là tiêu chuẩn mở(RFC-7519) định nghĩa cách thức
+truyền tin an toàn giữa các thành viên bằng 1 JSON. 
+Xác thực và đánh dấu là tin cậy bởi "chữ ký" của nó.
+Phần chữ kỹ của JWT sẽ được mã hóa bằng HMAC và RSA.
+  - JWT có 3 thành phần chính:
+  +) Tiêu đề: chứa loại mã thông báo và thuật toán băm.
+  +) Tải trọng: chứa xác nhận quyền sở hữu(thông tin cá nhân không nhạy cảm 
+	  : username, địa chỉ,...), vì nếu để thông tin quan trọng vào đây thì 
+	  hacker có thể giải mã ra được.
+  +) Chữ ký 
+ 
+===> NÊN TÌM HIỂU VỀ JWT
+  
+# Cách 4: Signature - chữ ký số.
+  Sử dụng cặp khóa công khai - bảo mật và qua đó có thể ký các văn bản điện tử
+  cũng như trao đổi thông tin mật.
+
+# Cách 5: OTP - One Time Password: khi chuyển tiền ngân hàng.
+
+# Cách 6: Oauth 2: Xác thực thông qua các ứng dụng khác: google, facebook,...
+
+# Cách 7: Xác thực thông qua mã OR.
+
+3. Spring Security và các thành phần của Spring Security.
+
+- Spring Security là 1 dự án của Spring framework, cung cấp các dịch vụ bảo
+mật toàn diện cho các ứng dụng Java EE.
+- Gồm có Authentication và Authorization.
+- Authentication là quá trình thiết lập 1 đối tượng pricipal(là 1 người, 1 thiết
+bị hoặc 1 ứng dụng khác,...) mà có thể truy cập được vào ứng dụng của chúng ta.
+- Authorization: là tiến trình quyết định xem liệu rằng 1 pricipal có thể 
+thực hiện 1 hành động gì đó trong ứng dụng hay không.
+
+- Các thành phần trong ứng dụng Spring Security:
++) Security Context: là 1 interface, lưu trữ tất cả các chi tiết liên quan
+đến bảo mật. Khi kích hoạt Spring Security thì nó cũng kích hoạt Security Context.
++) SecurityContextHolder: để truy cập vào SecurityContext. Nó gồm chi tiết của
+pricipal đang tương tác với ứng dụng.
++) UserDetails: là 1 interface đại diện cho 1 principal gồm các phương thức:
+	getAuthorities() -> trả về danh sách các quyền của người dùng.
+	getPassword(), getUsername(), 
+	isAccountNonExpired(), isAcountNonLocked(),
+	isCredentialsNonExpired(), isEnabled()
+
+
+********** BÀI 15: Authorization ************ 
+
+1. Khái niệm Authorization
+- Hay còn gọi là Access - control, là tiến trình quyết định xem 1 pricipal có
+được phép thực hiện 1 hành động trong ứng dụng hay không.
+Trước khi diễn ra authorization thì pricipal phải được thiết lập bởi authentication.
+
+2. Cách thức tấn công CSRF(Cross-Site Request Forgery)
+- Là kỹ thuật tấn công bằng cách sd quyền chứng thực của người dùng đối với 1
+website. CSRF là kỹ thuật tấn công vào người dùng, dựa vào đó, hacker có thể 
+thực thi những thao tác phải yêu cầu chứng thực.
+
+3. Cách thức tấn công XSS
+- Tiêm 1 đoạn mã độc vào trong trang web. Đây là 1 trong các cách tấn công
+phổ biến nhất hiện tại.
+Khi có cuộc tấn công XSS trên trang web thì mã độc sẽ thực thi trong trình
+duyệt của người dùng -> đánh cặp thông tin(cookie) của người dùng, để xem 
+thông tin hoặc giả mạo người dùng.
