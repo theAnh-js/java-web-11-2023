@@ -1,0 +1,193 @@
+
+*** DOCKER ***
+
+1. Docker architecture - Kiến trúc của docker
+- Gồm 3 phần: Client, Docker_Host, Registry.
+
++) Client để phát lệnh cho docker.
++) docker_host để nhận lệnh.
++) docker images là các file 
+
+- Client và Docker_host gọi chung là Docker Engine.
+
+- Từ client:
+docker build: giúp ta đóng gọi 1 ứng dụng thành docker images. 
+docker pull: giúp ta tải 1 docker images từ 1 cái kho/registry nào đó.
+docker run: giúp ta chạy 1 docker images thành 1 docker containers.
+
+- Trong docker_host:
+Docker daemon: chương trình chạy ngầm trong hệ thống để luôn sẵn sàng nhận
+lệnh từ client.
+Images: kho chứa các docker images, đây là các file. Mỗi lần đóng gói ứng dụng
+nó lại tạo ra 1 image và đưa vào kho chung trên máy chứa docker.
+Khi ta chạy docker để chạy ứng dụng đó thì -> image được chuyển vào bộ nhớ ram 
+và -> tạo thành container.
+
+- Registry: là kho chứa các docker images mà không nằm trên máy tính ta đang dùng.
+Nó là kho chung do Docker tạo ra.
+Registry có thể là: Docker Hub, Docker Cloud, Docker Store, Trusted Registry,
+Private Registry, Local Registry,...
+
+2. Docker terminology - Thuật ngữ trong docker .
+- Build: 
++) Dockerfile: là 1 file gồm các quy cách để tạo ra nội dung cho docker images.
++) image: là docker images mà sau khi chạy thì ta có được với đầy đủ quy cách đã ghi trong
+dockerfile.
+- Ship:
++) Registry: kho chứa(thường dùng docker hub) các docker images.
++) Repository: khi có tài khoản ở docker hub ta có thể tạo ra các repository.
++) Docker ID: để vào docker hub cần docker ID. (Có thể tạo tài khoản miễn phí.)
+Chú ý: khi dùng docker hub để tạo, thì chỉ được duy nhất 1 cái repository là riêng tư,
+còn những cái khác mặc định ai cũng có thể thấy và dùng được.
+- Run:
++) Docker Engine
++) Container(khi docker image được chạy thì phiên bản trong bộ nhớ ram
+của nó gọi là container), 
+machine(có thể tạo ra các máy ảo docker khác nhau).
++) .yml : file khi sử dụng docker compose, cho phép ta dựng ra hệ thống bao 
+gồm các service, stack(service group), node-swarm,...
+
+3. Các lệnh trong docker.
+
+IMAGES:
+- Build an Image from a Dockerfile
+	docker build -t <image_name>
+	
+- Build an Image from a Dockerfile without the cache
+	docker build -t <image_name> . –no-cache
+	
+- List local images
+	docker images
+	
+- Delete an Image
+	docker rmi <image_name>
+	
+- Remove all unused images
+	docker image prune 
+	
+DOCKER HUB:
+- Login into Docker
+	docker login -u <username>
+- Publish an image to Docker Hub
+	docker push <username>/<image_name>
+- Search Hub for an image
+	docker search <image_name>
+- Pull an image from a Docker Hub
+	docker pull <image_name>
+
+CONTAINER:
+- Create and run a container from an image, with a custom name:
+	docker run --name <container_name> <image_name>
+- Run a container with and publish a container’s port(s) to the host.
+	docker run -p <host_port>:<container_port> <image_name>
+- Run a container in the background
+	docker run -d <image_name>
+- Start or stop an existing container:
+	docker start|stop <container_name> (or <container-id>)
+- Remove a stopped container:
+	docker rm <container_name>
+- Open a shell inside a running container:
+	docker exec -it <container_name> sh
+- Fetch and follow the logs of a container:
+	docker logs -f <container_name>
+- To inspect a running container:
+	docker inspect <container_name> (or <container_id>)
+- To list currently running containers:
+	docker ps
+- List all docker containers (running and stopped):
+	docker ps --all
+- View resource usage stats
+	docker container stats
+
+
+4. Các bước làm quen với Docker.
+- Install DOCKER.
+- Registry a docker id
+- Get used to basic commands:
+	Run an existing image
+	Build a new image and push it to docker hub
+- Have a look at DOCKER Hub
+- Play with Docker Lab
+
+Lưu ý: Khi push 1 docker image lên docker hub -> cần docker id
+	   Khi pull 1 docker image lên docker hub -> không cần docker id
+	   
+========================================================================
+
+- Image trong docker là những phần mềm được đóng gói và quản lý bởi docker.
+Ví dụ: image đóng gọi phần mềm php, đóng gói hệ đh ubuntu,...
+	Trong docker, các image chỉ có thể đọc, không thể sửa đổi.
+- Khi image khởi chạy -> phiên bản thực thi của image gọi là  container. 
+Các container có thể ghi dữ liệu vào trong nó.
+- Xem trong docker có những image nào: docker images
+- Các image được lấy từ registry.
+- Từ hub.docker.com, ta có thể tìm kiếm các image muốn dùng.
+- Hoặc dùng : docker search + tên image cần tìm kiếm.
+- Khi muốn sd image nào đó thì vào hub.docker.com đọc thông tin của image đó.
+- Tải image nào đó về: docker pull + tên image:phiên bản
+Ví dụ: tải image ubuntu phiên bản 16.04 -> docker pull ubuntu:16.04
+- Khi muốn sd phiên bản mới nhất của image nào đó, thì khi tải ta:
+Ví dụ với image ubuntu:		docker pull ubuntu:lastest 
+					   hoặc docker pull ubuntu
+- Xóa 1 image nào đó: docker image rm + tên image(hoặc id)
+- Cách chạy 1 container từ 1 image:
+	docker run thamso IMAGE command thamsolenh
+VD: docker run -i -t ubuntu:lastest(hoặc dùng id của image đó)
+  = docker run -it imageid 
+-> khi muốn dừng container: exit
+-> kiểm tra xem có container nào vẫn đang chạy không: docker ps
+- Liết kê tất cả container kể cả đang hoặc không chạy: docker ps -a
+- Để khởi chạy lại container: docker start + container id 
+-> sau đó, nếu muốn vào lại terminal của container đó: docker attach + container id
+(Lệnh này sẽ kết nối terminal của bạn trực tiếp vào terminal của container. 
+Điều này cho phép bạn tương tác trực tiếp với các lệnh hoặc tiến trình đang 
+chạy trong container.)
+- Chú ý: ví dụ: nếu đó là container được tạo ra từ image ubuntu thì khi vào terminal 
+của container đó, ta phải dùng các lệnh của ubuntu linux để ra lệnh.
+- Nếu ta muốn thoát ra khỏi terminal của container đó, mà không muốn dừng exit
+nó thì: CTRL + P, CTRL + Q
+ KHi này, vì ta đã ra khỏi terminal của container đó, và đang trên terminal 
+ của máy host của chúng ta , nên nếu muốn dừng container đó thì ta không thể 
+ dùng "exit" được => dùng: docker stop + container id
+- Nếu muốn chạy 1 container từ 1 image, đồng thời đặt tên và đặt hostname cho nó:
+  docker run -it --name "CONTAINER NAME" -h HOSTNAME imageid/hoặc tên image
+VD:  docker runt -it --name "ABCD" -h centos11 5d6fdfd0f
+- Xóa 1 container đã dừng có id là a27: docker rm a27
+- Xóa 1 container đang chạy có id là a27: docker rm -f a27
+
+- Xóa image có id là 9211: docker image rm 9211
+======
+- Khi đang ở terminal của máy host mà ta muốn thực thi lệnh trên terminal
+của container nào đó đang chạy, ví dụ container ubuntu với tên là CR7:
+-> Thực thi lệnh "ls" bên trong container có tên CR7: docker exec CR7 ls
+- Khi chạy lệnh "bash" thì nó cũng kết nối luôn với terminal của container đó,
+giống lệnh "attach" : docker exec -it CR7 bash 
+
+=====
+- Commit 1 container thành 1 image: container đó phải đang ở trạng thái dừng.
+-> Từ container mà ta đã cài đặt vim có tên là U11, ta sẽ chuyển nó thành 1
+image có tên là ubuntu-vim, phiên bản version1:
+	docker commit U11 ubuntu-vim:version1
+-> docker images để kiểm tra lại.
+=====
+- Ta có thể lưu 1 image thành 1 file trên hệ thống máy host của ta: 
+ docker save --output + tên file.định dạng(thường là .tar) + image id.
+Ví dụ: lưu image có id=af6 với tên file là: myimage1230
+$ docker save --output myimage1230.tar af6
+
+=====
+- Nếu ta xóa 1 image, trong khi container của image đó vẫn còn kể cả đã 
+dừng hay đang chạy vẫn không thể xóa được mà
+ => lỗi conflict.
+ -> ta có thể xóa container đó rồi xóa image,
+    hoặc thêm -f để ép xóa.
+
+=====
+- Phục hồi 1 file trở thành 1 file image trong docker:
+VD: phục hồi lại file myimage.tar thành image:
+	docker load -i myimage1230.tar
+-> lúc này đã được phục hồi thành image có id=af6, nhưng chưa có tên và tag, để đặt tên:
+	docker tag af6 newimage:version2
+
+
+
