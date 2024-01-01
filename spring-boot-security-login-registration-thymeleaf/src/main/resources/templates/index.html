@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+</head>
+<body>
+	<!-- create navigation bar (header) -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Registration and
+					Login Module</a>
+			</div>
+			
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+			
+<!-- 		isAuthenticated(): Đây là một biểu thức được cung cấp bởi Spring Security, 
+			và nó kiểm tra xem người dùng đã được xác thực hay không. Nếu người dùng 
+			đã đăng nhập (authenticated), biểu thức này sẽ trả về true; ngược lại, nó sẽ trả về false.
+			Do đó, khi bạn sử dụng sec:authorize="isAuthenticated()", nó kiểm tra xem người dùng 
+			có đăng nhập hay không. Nếu người dùng đã đăng nhập, nội dung bên trong thẻ sẽ được hiển thị; 
+			ngược lại, nếu người dùng chưa đăng nhập, nội dung sẽ bị ẩn hoặc có thể xử lý theo cách khác 
+			tùy thuộc vào cách bạn đã cấu hình. Điều này thường được sử dụng để kiểm soát quyền truy cập vào 
+			các phần của giao diện người dùng dựa trên tình trạng xác thực. -->
+		</div>
+	</nav>
+	<br>
+	<br>
+
+	<div class="container">
+		<h1>Home Page</h1>
+		
+		Xin chào <span sec:authentication="principal.username"></span>
+		<p>Nếu bạn là admin, bạn có thể truy cập <a th:href="@{/admin}">Page for admin</a></p>
+	</div>	
+<!-- 	Trong ngữ cảnh của Spring Security, principal thường được sử dụng 
+	để đề cập đến đối tượng chứa thông tin về người dùng đang thực hiện 
+	hành động. Trong ngữ cảnh này, principal thường được đại diện bởi một 
+	đối tượng thuộc lớp org.springframework.security.core.userdetails.UserDetails.
+
+    Mỗi khi một người dùng xác thực thành công, một đối tượng UserDetails sẽ được tạo 
+    và đặt vào thành phần "principal" của đối tượng Authentication. 
+    Đối tượng Authentication này được giữ thông qua toàn bộ phiên làm việc 
+    của người dùng trong ứng dụng. -->
+</body>
+</html>
