@@ -27,10 +27,12 @@ public class ProductDAO {
 		String sql = "select * from product order by ProductId desc limit 4";
 
 		try {
-			// ket noi van database
+			// ket noi vơi database
 			conn = DBConnect.getConnection();
+			
 			// truyen cau lenh truy van
 			ps = conn.prepareStatement(sql);
+			
 			// chay query va nhan ket qua trong doi tuong ResultSet
 			rs = ps.executeQuery();
 

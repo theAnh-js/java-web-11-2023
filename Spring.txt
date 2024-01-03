@@ -872,3 +872,23 @@ phổ biến nhất hiện tại.
 Khi có cuộc tấn công XSS trên trang web thì mã độc sẽ thực thi trong trình
 duyệt của người dùng -> đánh cặp thông tin(cookie) của người dùng, để xem 
 thông tin hoặc giả mạo người dùng.
+
+
+
+SOLID
+
+1. Khái niệm: là 1 trong những nguyên tắc để ta xây dựng các ứng dụng OOP hiệu quả.
+-> giúp code dễ đọc, dễ hiểu, dễ bảo trì và mở rộng.
+ - S: Single - reposibility principle: Nguyên lý trách nhiệm duy nhất.
+ - O: Open - close priciple: Nguyên lý đóng mở.
+ - L: Liskov subtitution principle: Nguyên lý thay thế.
+ - I: Interface - segregation principle: Phân tách interface.
+ - D: Dependenc Inversion principle: Nguyên lý đảo ngược phụ thuộc.
+ 
+2. S - Single reposibility 
+- Mỗi một class chỉ nên đảm nhiệm 1 nhiệm vụ duy nhất.
+- why?
++) Dễ quản lý mã nguồn.
++) Các lớp tập trung vào 1 nhiệm vụ. 
++) Có thể phát triển đồng thời các module - class 1 cách độc lập.
++) Dễ mở rộng, bảo trì.

@@ -188,6 +188,24 @@ VD: phục hồi lại file myimage.tar thành image:
 	docker load -i myimage1230.tar
 -> lúc này đã được phục hồi thành image có id=af6, nhưng chưa có tên và tag, để đặt tên:
 	docker tag af6 newimage:version2
+	
+===========
+D04 - Chia sẻ dữ liệu trong Docker, tạo và quản lý ổ đĩa docker volume
+===========
 
+- Chia sẻ dữ liệu từ máy host vào container:
+docker run -it -v pathHost:pathContainer imageid
+- Nếu ở interminal của conntainer, ta tạo mới hay chỉnh sửa file thì,
+ngay cả khi xóa container đó đi, file đó vẫn còn trên máy host.
+-> dữ liệu ko bị mất đi, đó là cách chia sẻ và lưu lại dữ liệu giữa
+máy host và container.
+- Ngoài ra, ta cũng có thể chia sẽ dữ liệu giữa các container với nhau.
+- Tạo ổ đĩa: docker volume create NAMEDISK
+- Xem có ổ đĩa nào khÔng: docker volume ls
+- Xem nội dung của 1 ổ đĩa nào đó: docker volume inspect NAMEDISK
+- Xóa 1 ổ đĩa: docker volume rm NAMEDISK
+- Gán 1 ổ đĩa vào container để container lưu dữ liệu cố định ở trong đó:
+   docker run -it --name Gántênchocontainer  --mount source=DISK, target=pathContainer imageid
+   
 
 

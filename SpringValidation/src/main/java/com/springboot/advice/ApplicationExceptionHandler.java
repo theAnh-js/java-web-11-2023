@@ -46,4 +46,18 @@ public class ApplicationExceptionHandler {
 	 * dụng.
 	 */
 	
+	/*
+	 * @ControllerAdvice: Đây là một annotation chỉ định rằng class được đánh dấu
+	 * bởi nó chứa các phương thức xử lý ngoại lệ cho tất cả các controller trong
+	 * ứng dụng Spring.
+	 */
+	
+
+	/*
+	 * @ExceptionHandler(...) là một annotation trong Spring Framework được sử dụng
+	 * để xử lý các ngoại lệ (exceptions) một cách tập trung trong một controller
+	 * hoặc toàn bộ ứng dụng Spring. Annotation này giúp bạn định nghĩa một phương
+	 * thức để xử lý các loại cụ thể của ngoại lệ mà bạn có thể gặp phải trong quá
+	 * trình thực hiện các yêu cầu HTTP.
+	 */
 }

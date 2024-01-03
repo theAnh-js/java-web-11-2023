@@ -56,8 +56,6 @@ table, th, td {
 	</tbody>
 </table>
 
-<p th:if = "${blogList == null}">Vui lòng điền thông tin bạn muốn tìm kiếm.</p>
-
 <p  th:if = "${blogList != null && blogList.isEmpty()}">Không tìm thấy kết quả thỏa mãn.</p>
 <!--TẠi Vì:  Trong Spring Data JPA, khi bạn sử dụng phương thức truy vấn với Page, nếu không có kết quả nào, 
 Spring Data JPA sẽ trả về một Page trống (không có phần tử) thay vì null. 
@@ -69,8 +67,8 @@ Bạn có thể kiểm tra xem trang có rỗng hay không bằng cách sử d�
 <br>
 
 <div style="display: flex;justify-content: center;">
+
 	<ul class="pagination" th:if="${blogList.totalPages > 0}">
-	
 		<li th:if="${blogList.hasPrevious()}" class="page-item">
 			<a th:href="@{'/list'(page=${blogList.number}, authorName=${authorNameValue}, ecomId=${ecomID})}" class="page-link">&lt;&lt;</a>
 			<!-- tại sao lại là blogList.number mà ko cần - 1.
@@ -92,8 +90,7 @@ Bạn có thể kiểm tra xem trang có rỗng hay không bằng cách sử d�
 	    
 		<li th:if="${blogList.hasNext()}" class="page-item">
 			<a th:href="@{'/list'(page=${blogList.number + 2}, authorName=${authorNameValue}, ecomId=${ecomID})}" class="page-link">&gt;&gt;</a>
-		</li>
-					
+		</li>				
 	</ul>
 	
 </div>

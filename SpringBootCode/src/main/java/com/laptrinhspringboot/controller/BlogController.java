@@ -60,7 +60,13 @@ public class BlogController {
 		model.addAttribute("blogList", blogList);
 		model.addAttribute("ecomID", icommerceId); // truyền sang để th:selected = "${ecomID == ecommerce.id}" thẻ option
 		model.addAttribute("authorNameValue", auName); // truyền sang để th:value="${authorNameValue}", hiện thị lại tên author sau khi submit
+		
 		return "list"; 
 		
+	}
+	
+	@GetMapping("/403")
+	public String accessDeniedPage() {
+		return "/403";
 	}
 }
