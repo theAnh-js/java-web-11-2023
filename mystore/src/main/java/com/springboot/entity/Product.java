@@ -37,7 +37,7 @@ public class Product {
 	private String name;
 	
 	@Column(name = "unit_price")
-	private double unitPrice;
+	private Double unitPrice;
 	
 	@Column(name = "image")
 	private String image;

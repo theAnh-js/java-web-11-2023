@@ -15,4 +15,21 @@ public interface ProductService {
 	void update(Product entity);
 
 	Product delete(Integer id);
+	
+	List<Product> findByName(String keyword);
+
+	List<Product> findByFavorate(String ids);
+	
+	List<Product> findByFavo(String ids);// hàm tự query
+	
+	List<Product> findWatchedProdList(Integer ids);
+	
+	List<Product> findNewProduct(int numbers);
+	
+	List<Product> findBestViewProduct(int numbers);
+	
+	List<Product> findBestDiscountProduct(int numbers);
+	
+	List<Product> findBestSellerProduct(int number);
+	
 }

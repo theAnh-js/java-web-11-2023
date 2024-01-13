@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<!-- Site meta -->
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title layout:fragment="fra_title">Free Bootstrap 4 Ecommerce
+	Template</title>
+<!-- CSS -->
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+	crossorigin="anonymous">
+	
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<div class="container">
+			<a class="navbar-brand" href="index.html">Simple Ecommerce</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarsExampleDefault"
+				aria-controls="navbarsExampleDefault" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse justify-content-end"
+				id="navbarsExampleDefault">
+				<ul class="navbar-nav m-auto">
+
+					<li class="nav-item active"><a class="nav-link"
+						th:href="@{/home}">Home <span class="sr-only">(current)</span>
+					</a></li>
+
+					<li class="dropdown nav-item"><a
+						class="nav-link dropdown-toggle" data-toggle="dropdown"
+						href="contact.html">Categories</a> <span class="caret"></span>
+						<ul class="dropdown-menu">
+							<li th:each="category : ${categoryList}"><a
+								th:href="@{'/product/by-category/' + ${category.id}}"
+								th:text="${category.name}"></a></li>
+						</ul></li>
+
+					<li class="nav-item"><a class="nav-link" href="product.html">Product</a>
+					</li>
+					
+					<li class="dropdown nav-item"><a
+						class="nav-link dropdown-toggle" data-toggle="dropdown"
+						href="contact.html">Special</a> <span class="caret"></span>
+						<ul class="dropdown-menu">
+							<li><a th:href="@{/product/special/1}">Hàng mới</a></li>
+							<li><a th:href="@{/product/special/2}">Được quan tâm</a></li>
+							<li><a th:href="@{/product/special/3}">Bán chạy</a></li>
+							<li><a th:href="@{/product/special/4}">Giảm giá</a></li>
+						</ul></li>
+						
+					<li class="nav-item"><a class="nav-link" href="product.html">Cart</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a>
+					</li>
+
+					<li class="dropdown nav-item"><a
+						class="nav-link dropdown-toggle" data-toggle="dropdown"
+						href="contact.html">Acount</a> <span class="caret"></span>
+						<ul class="dropdown-menu">
+							<li><a href="#">Đăng nhập</a></li>
+							<li><a href="#">Đăng ký</a></li>
+							<li><a href="#">Quên mật khẩu</a></li>
+							<li><a href="#">Đăng xuất</a></li>
+							<li><a href="#">Đổi mật khẩu</a></li>
+							<li><a href="#">Cập nhật tài khoản</a></li>
+							<li><a href="#">Đơn hàng</a></li>
+						</ul></li>
+
+					<li class="dropdown nav-item"><a
+						class="nav-link dropdown-toggle" data-toggle="dropdown"
+						href="contact.html">Language</a> <span class="caret"></span>
+						<ul class="dropdown-menu">
+							<li><a href="#">Tiếng Việt</a></li>
+							<li><a href="#">English</a></li>
+
+						</ul></li>
+
+				</ul>
+
+
+				<form class="form-inline my-2 my-lg-0"
+					th:action="@{/product/search}" method="get">
+					<div class="input-group input-group-sm">
+						<input th:value=${param.keyword} name="keyword" type="text"
+							class="form-control" placeholder="Search..." />
+						<div class="input-group-append">
+							<button type="submit" class="btn btn-secondary btn-number">
+								<i class="fa fa-search"></i>
+							</button>
+						</div>
+					</div>
+					<a class="btn btn-success btn-sm ml-3" href="cart.html"> <i
+						class="fa fa-shopping-cart"></i> Cart <span
+						class="badge badge-light">3</span>
+					</a>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<section class="jumbotron text-center">
+		<div class="container">
+			<h1 class="jumbotron-heading">E-COMMERCE BOOTSTRAP THEME</h1>
+			<p class="lead text-muted mb-0">Simple theme for e-commerce buid
+				with Bootstrap 4.0.0. Pages available : home, category, product,
+				cart & contact</p>
+		</div>
+	</section>
+
+
+	<!-- Start Content -->
+	<div layout:fragment="content"></div>
+
+	<!-- End Content -->
+
+
+	<!--Start Footer -->
+	<footer class="text-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3 col-lg-4 col-xl-3">
+					<h5>About</h5>
+					<hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
+					<p class="mb-0">Le Lorem Ipsum est simplement du faux texte
+						employé dans la composition et la mise en page avant impression.</p>
+				</div>
+
+				<div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
+					<h5>Informations</h5>
+					<hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
+					<ul class="list-unstyled">
+						<li><a href="">Link 1</a></li>
+						<li><a href="">Link 2</a></li>
+						<li><a href="">Link 3</a></li>
+						<li><a href="">Link 4</a></li>
+					</ul>
+				</div>
+
+				<div class="col-md-3 col-lg-2 col-xl-2 mx-auto">
+					<h5>Others links</h5>
+					<hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
+					<ul class="list-unstyled">
+						<li><a href="">Link 1</a></li>
+						<li><a href="">Link 2</a></li>
+						<li><a href="">Link 3</a></li>
+						<li><a href="">Link 4</a></li>
+					</ul>
+				</div>
+
+				<div class="col-md-4 col-lg-3 col-xl-3">
+					<h5>Contact</h5>
+					<hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
+					<ul class="list-unstyled">
+						<li><i class="fa fa-home mr-2"></i> My company</li>
+						<li><i class="fa fa-envelope mr-2"></i> email@example.com</li>
+						<li><i class="fa fa-phone mr-2"></i> + 33 12 14 15 16</li>
+						<li><i class="fa fa-print mr-2"></i> + 33 12 14 15 16</li>
+					</ul>
+				</div>
+				<div class="col-12 copyright mt-3">
+					<p class="float-left">
+						<a href="#">Back to top</a>
+					</p>
+					<p class="text-right text-muted">
+						created with <i class="fa fa-heart"></i> by <a
+							href="https://t-php.fr/43-theme-ecommerce-bootstrap-4.html"><i>t-php</i></a>
+						| <span>v. 1.0</span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!--End Footer -->
+
+
+	<!-- JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		type="text/javascript"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		type="text/javascript"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		type="text/javascript"></script>
+		
+	<script th:src="@{/js/main.js}" type="text/javascript"></script>
+	<script th:src="@{/js/jquery-3.7.1.min.js}" type="text/javascript"></script>
+
+
+
+	<script type="text/javascript">
+		//Plus & Minus for Quantity product
+		$(document).ready(function() {
+			var quantity = 1;
+
+			$('.quantity-right-plus').click(function(e) {
+				e.preventDefault();
+				var quantity = parseInt($('#quantity').val());
+				$('#quantity').val(quantity + 1);
+			});
+
+			$('.quantity-left-minus').click(function(e) {
+				e.preventDefault();
+				var quantity = parseInt($('#quantity').val());
+				if (quantity > 1) {
+					$('#quantity').val(quantity - 1);
+				}
+			});
+
+		});
+	</script>
+</body>
+</html>

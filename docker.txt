@@ -47,6 +47,22 @@ machine(có thể tạo ra các máy ảo docker khác nhau).
 +) .yml : file khi sử dụng docker compose, cho phép ta dựng ra hệ thống bao 
 gồm các service, stack(service group), node-swarm,...
 
+2.1 Bổ sung thêm
+- Docker Image: 
+	+ Chứa source code, libraries, dependencies, tools, các file, các
+		biến môi trường, OS cần thiết cho 1 ứng dụng chạy.
+	+ Có tính bất biến : Có thể revert lại phiên bản cũ.
+	+ Real-only
+	+ Không thể run hoặc stop
+	-> Để thao tác trên image, ta có container
+- Docker Container:
+	+ Là môi trường để thực thi ứng dụng, là 1 run-time enviroment
+	+ Các container trong cùng 1 image chạy độc lập với nhau -> ko bị 
+		ảnh hưởng lẫn nhau.
+		Ví dụ: ta cài 2 con server trên 2 container của 1 image nào đó,
+		khi 1 con server chết thì con server ở container kia vẫn chạy ok.
+	+ Có thể run và stop
+	
 3. Các lệnh trong docker.
 
 IMAGES:
@@ -82,6 +98,8 @@ CONTAINER:
 	docker run -p <host_port>:<container_port> <image_name>
 - Run a container in the background
 	docker run -d <image_name>
+- Run a container and set name for container in the background
+	docker run -d --name container1 tên_image
 - Start or stop an existing container:
 	docker start|stop <container_name> (or <container-id>)
 - Remove a stopped container:
@@ -207,5 +225,80 @@ máy host và container.
 - Gán 1 ổ đĩa vào container để container lưu dữ liệu cố định ở trong đó:
    docker run -it --name Gántênchocontainer  --mount source=DISK, target=pathContainer imageid
    
+==============
+docker run -it --name 03 -p 5001:80 busybox
+ー＞　-p 5001:80: Ánh xạ cổng 5001 trên máy host với cổng 80 của container. 
+	Có nghĩa là nếu bạn truy cập http://localhost:5001 trên máy host, 
+	nó sẽ được chuyển tiếp đến cổng 80 của container.
 
 
+==============
+Docker Bài 5: Hướng dẫn viết dockerfile
+# ADD A B  -> add A vào B
+	#VD: ADD /learn/ /myfile/
+	+ Chỉ ADD được file từ host(src) vào image
+	+ Nếu ADD folder thì chỉ nội dung trong folder được copy vào.
+	+ Nếu copy thư mục thì phải có dấu / ở cuối.
+	+ Nếu file có kí tự đặc biệt thì nên cho vào thư mục rồi hãng ADD.
+	+ Nếu B không tồn tại thì sẽ được tự tạo.
+	+ Nếu là file rar, tar,... thì ADD chỉ lấy nội dụng, nó sẽ tự động giải nén.
+
+# COPY ["filename", "destination"]  hoặc
+  COPY filename destination         hoặc 
+  COPY [--chown=user:group] filename destination
+	Các lưu ý giống ADD.
+	Khác: Không thể copy file file remote. COPY không tự giải nén.
+
+# RUN : Chạy để build image (update, build file, install các package,...)
+	#VD: RUN apt-get update
+		 RUN npm install
+		 
+
+# CMD : Chạy khi container chạy trên image đã builded
+	#VD: CMD ["npm", "start"]
+		 CMD npm start
+		 CMD start start start --> nó sẽ là parameter của Entrypoint
+ + Nếu trong dockerfile có nhiều CMD thì nó cũng chỉ lấy thằng cuối cùng.
+ + Nó có thể bị ghi đè nếu tạo 1 container với 1 lệnh shell.
+ 
+# ENTRYPOINT : Chạy khi container chạy trên image đã builded 
+    #VD: ENTRYPOINT ["npm","start"] hoặc
+		 ENTRYPOINT npm start
+    #VD: ENTRYPOINT ["echo","Hello"]
+		 CMD ["World"]
+		 --> Hello World
+ + Không bị ghi đè, dù tạo 1 container với lệnh shell.
+ + Nếu dùng dạng excute shell của ENTRYPOINT thì sẽ ignore toàn bộ CMD(nếu có)
+ 
+# Những thằng RUN, CMD, ENTRYPOINT, COPY, ADD,... đều hỗ trợ cache.
+ 
+# WORKDIR : chỉ định thư mục
+	#VD: RUN mkdir /app
+	     WORKDIR /app     -> chỉ định làm việc trên thư mục app 
+		 ADD index.html   -> hiểu là add file index.html vào thư mục app.
+
+# USER : chỉ ra user nào làm việc
+	#VD: FROM ubuntu
+		 RUN addgroup app && adduser -S -G theanh app
+		 USER theanh hoặc 
+		 USER UID
+
+# ENV : dạng key-value, cung cấp các metadata (thông tin image, tên image, thông tin người dùng,...)
+		Chạy được cả trong quá trình build image, và khi run container.
+	#VD: ENV userName=theanh hoặc 
+		 ENV userName theanh 
+
+# ARG : dạng key=value, định nghĩa 1 value gì đó.
+	   Chỉ chạy trong quá trình build image.
+
+# EXPOSE port : show ra 1 port nào đó.
+# LABEL : dạng key-value
+# MAINTAINER name : khai báo tên người tạo ra image
+# LABEL MAINTAINER key value : thay thế cho MAINTAINER
+# VOLUME 
+	+ Đưa các file từ host vào volume để lưu trữ
+	+ Có chức năng như 1 backup
+	+ Khi đưa file vào volume, ta có thể khai báo container nào
+	dùng volume này như 1 nơi lưu trữ và có thể lấy dữ liệu từ volume 
+	đó ra để update.
+		
