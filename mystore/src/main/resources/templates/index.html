@@ -91,13 +91,18 @@
 										src="https://dummyimage.com/600x400/55595c/fff"
 										alt="Card image cap" />
 									<div class="card-body" th:data-id = "${product.id}">
+									
 										<h4 class="card-title">
 											<a th:href="@{'/product/' + ${product.id}}" th:text="${product.name}" title="View Product"></a>
 										</h4>
 										
 										<button class="btn btn-secondary btn-heart"><i class="fas fa-heart text-warning"></i></button>
 										
-										
+										<!-- Button to Open the Modal -->
+										<button class="btn btn-secondary btn-open-modal" data-toggle="modal" data-target="#myModal">
+											<i class="fas fa-envelope text-warning"></i>
+										</button>
+       									
 										<p class="card-text">Some quick example text to build on
 											the card title and make up the bulk of the card's content.</p>
 										<div class="row">
@@ -117,6 +122,42 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- The Modal -->
+			<div class="modal" id="myModal">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			
+			      <!-- Modal Header -->
+			      <div class="modal-header">
+			        <h4 class="modal-title">Gửi Email</h4>
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			      </div>
+			
+			      <!-- Modal body -->
+			      <div class="modal-body">
+			      
+					    <label for="email2" class="mb-2 mr-sm-2">Email người nhận:</label> <br>
+					    <input type="text" class="form-control mb-2 mr-sm-2" id="email2" placeholder="Enter email" name="email">
+					    
+					    <div class="form-group">
+					      <label for="comment" class="mb-2 mr-sm-2">Nội dung thư:</label> <br>
+						  <textarea class="form-control" rows="5" id="comment"></textarea>
+						</div>
+						
+						<input id="id" type="text" class="form-control" th:value="${idToSend}">
+			      </div>
+			
+			      <!-- Modal footer -->
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-danger btn-send" >Gửi</button>
+			        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+			      </div>
+			
+			    </div>
+			  </div>
+			</div>
+			
 		</div>
 	</div>
 
@@ -232,6 +273,7 @@
 		</div>
 	</div>
 </div>
+
 
 </body>
 </html>

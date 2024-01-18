@@ -1,7 +1,9 @@
 package com.springboot.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,16 +13,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.springboot.entity.Category;
 import com.springboot.entity.Product;
 import com.springboot.service.CategoryService;
 import com.springboot.service.CookieService;
+import com.springboot.service.MyCartService;
 import com.springboot.service.ProductService;
 
 import jakarta.servlet.http.Cookie;
 
-@Controller
+//@SessionScope hỉ định rằng một bean nên được tạo ra và duy trì trong suốt chu kỳ sống của một phiên (session) HTTP. 
+@RestController
 @RequestMapping("/product")
 public class ProductController {
 
@@ -32,6 +38,9 @@ public class ProductController {
 	
 	@Autowired
 	private CookieService cookieService;
+	
+	@Autowired
+	private MyCartService myCartService;
 	
 	@GetMapping("/by-category/{id}")
 	public String productByCategory(@PathVariable("id") int id, Model model) {
@@ -104,6 +113,24 @@ public class ProductController {
 		return true;
 	}
 	
+	@ResponseBody
+	@GetMapping("/get-id-for-email/{id}")
+	public boolean getIdForEmail(Model model, @PathVariable("id") Integer id) {
+		model.addAttribute("idToSend", id);
+		System.out.println("my id: " + id);
+		return true;
+	}
+	
+	@ResponseBody
+	@GetMapping("/send-email")
+	public boolean sendEmail(Model model,
+				@RequestParam("id") Integer id,
+				@RequestParam("email") String email,
+				@RequestParam("comment") String comment
+			) {
+		System.out.println("email" + email);
+		return true;
+	}
 	
 	@GetMapping("/special/{id}")
 	public String specialProduct(Model model, @PathVariable("id") int id) {
@@ -135,5 +162,22 @@ public class ProductController {
 			
 			return "product-special";
 		}
+	
+	@GetMapping("/add-to-cart/{id}")
+	public Map<String, Number> addToCart(@PathVariable("id") int id) {
+		
+		myCartService.add(id);
+		
+		Map<String, Number> myMap = new HashMap<>();
+		
+		myMap.put("Số item trong giỏ: ", myCartService.getTotalItem());
+		myMap.put("Tổng tiền của giỏ: ", myCartService.getTotalPrice());
+		myMap.put("Số sản phẩm trong giỏ: ", myCartService.getTotalProduct());
+		
+		//Object[] cartInfo = {myCartService.getTotalItem(), myCartService.getTotalPrice()};
+		
+		
+		return myMap;
+	}
 	
 }

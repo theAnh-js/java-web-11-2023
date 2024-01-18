@@ -892,3 +892,32 @@ SOLID
 +) Các lớp tập trung vào 1 nhiệm vụ. 
 +) Có thể phát triển đồng thời các module - class 1 cách độc lập.
 +) Dễ mở rộng, bảo trì.
+
+====================================================================
+getRequestURI() và getRequestURL() là hai phương thức trong đối tượng 
+HttpServletRequest của Servlet API, và chúng thường được sử dụng để 
+xác định thông tin về yêu cầu HTTP được gửi đến máy chủ. 
+Dưới đây là một số tình huống thường gặp khi sử dụng chúng:
+
+Khi Cần Xác Định Phần Yêu Cầu URI:
+
+Sử dụng getRequestURI() khi bạn chỉ quan tâm đến phần yêu cầu URI, 
+chẳng hạn như "/path/to/resource". Phương thức này trả về một chuỗi 
+chứa phần yêu cầu URI từ URL được gửi đến máy chủ.
+Ví dụ: Nếu URL là http://localhost:8080/your-web-app/example, 
+thì getRequestURI() sẽ trả về "/your-web-app/example".
+
+Khi Cần Xác Định URL Đầy Đủ:
+
+Sử dụng getRequestURL() khi bạn muốn xác định URL đầy đủ, 
+bao gồm giao thức, tên máy chủ, cổng, và phần yêu cầu URI. 
+Phương thức này trả về một đối tượng StringBuffer chứa URL 
+đầy đủ của yêu cầu.
+Ví dụ: Nếu URL là http://localhost:8080/your-web-app/example, 
+thì getRequestURL() sẽ trả về http://localhost:8080/your-web-app/example.
+
+Khi Cần Xử Lý URL Động trong Một Servlet:
+
+Trong một servlet, khi bạn cần xử lý các yêu cầu động và cần truy cập 
+thông tin về URL được sử dụng để gọi servlet, có thể sử dụng cả 
+getRequestURI() và getRequestURL() để xác định thông tin cần thiết.
