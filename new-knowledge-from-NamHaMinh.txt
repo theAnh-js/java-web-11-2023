@@ -1,0 +1,232 @@
+1==================
+@PostMapping("/users/save")
+	public String saveUser(User user, RedirectAttributes redirectAttributes) {
+		System.out.println(user);
+		service.save(user);
+	
+		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully.");
+		return "redirect:/users";
+	}
+	
+	//addFlashAttribute là một phương thức trong interface RedirectAttributes trong Spring Framework, 
+	//được sử dụng để chuyển dữ liệu từ một request sang một request khác thông qua redirect. 
+	//Thông thường, khi bạn chuyển từ một trang (controller) sang trang khác bằng cách sử dụng redirect, 
+	//dữ liệu không thể trực tiếp được chuyển theo dạng model attribute, 
+	//vì redirect tạo ra một request mới.
+==================
+
+2==================
+<div th:if="${message != null}" class="alert alert-success text-center">[[${message}]]</div>
+
+Trong Thymeleaf, cú pháp [[...]] được sử dụng để đánh dấu một biểu thức thời gian chạy (runtime expression). 
+Cụ thể, nó được sử dụng để thực hiện việc đưa dữ liệu từ phía máy chủ (server) xuống phía máy khách (client) 
+khi máy chủ tạo và render trang web.
+==================
+
+3==================
+Không, khi bạn sử dụng return "redirect:/finish"; trong Spring MVC, nó sẽ tạo một yêu cầu mới đến /finish 
+mà không cần phải gọi lại URL /start lần nữa. Sau khi phương thức start() được thực hiện và redirect:/finish được trả về, 
+máy chủ sẽ trả về một mã trạng thái chuyển hướng (thường là 302 Found hoặc 303 See Other) và header "Location" chứa địa chỉ mới (/finish). 
+Trình duyệt sẽ tiếp tục và tạo một yêu cầu mới đến địa chỉ mới này.
+
+Quy trình sẽ diễn ra như sau:
+Yêu cầu gốc: Trình duyệt gửi yêu cầu đến /start.
+Controller xử lý yêu cầu và thực hiện một số xử lý, sau đó chuyển hướng đến /finish bằng return "redirect:/finish";.
+Máy chủ trả về mã trạng thái chuyển hướng và header "Location" chứa địa chỉ mới /finish.
+Trình duyệt nhận được phản hồi chuyển hướng, và tự động tạo yêu cầu mới đến /finish.
+Do đó, không có việc gọi lại URL /start trong quá trình chuyển hướng.
+==================
+
+4==================37. Code Delete User Function===========
+
+		<a th:href="@{'/users/delete/' + ${user.id}}" 
+			class="link-delete" 
+			title="Delete this user" 
+			th:userId="${user.id}">
+			
+			<i class="fa-solid fa-trash fa-2x icon-dark"></i>
+		</a>
+		
+		<div class="modal fade text-center" id="confirmModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="modalTitle">Delete Confirmation</h4>
+						<button type="button" class="close" data-dismiss="modal">&times</button>
+					</div>
+
+					<div class="modal-body">
+						<span id="confirmText"></span>
+					</div>
+
+					<div class="modal-footer">
+						<a class="btn btn-success" href="" id="yesBtn">Yes</a>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+							
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".link-delete").on("click", function(e) {
+					
+					e.preventDefault();   // chặn không cho thuộc tính href của thẻ a chạy 
+					//alert($(this).attr("href"));		
+					link = $(this);  // Đây chính là element mà ta click vào: <a th:href="@{'/users/delete/' + ${user.id}}" class="link-delete" ...><i class="fa-solid fa-trash fa-2x icon-dark"></i></a>
+					userId = link.attr("userId"); // lấy giá trị của thuộc tính userId
+					$("#yesBtn").attr("href", link.attr("href")); // lấy thuộc tính href của link = $(this); đặt vào href của nút Yes
+																  // thì khi ta bấm nút Yes sẽ gọi đến controller "@{'/users/delete/' + ${user.id}}"
+					$("#confirmText").text("Are you sure you want to delete this user ID " + userId + "?");
+					$("#confirmModal").modal();  // mở modal lên
+				});
+			});
+		</script>
+==================
+
+
+５==================38. Code Update User Enabled Status===========
+5.1:
+	@Query("UPDATE User u SET u.enabled = ?2 WHERE u.id = ?1")
+	@Modifying  // để chỉ định rằng phương thức này là một truy vấn sửa đổi.
+	public void updateEnabledStatus(Integer id, boolean enabled);
+	
+	// Queries that require a `@Modifying` annotation include INSERT, UPDATE, DELETE, and DDLstatements. 
+
+5.2: 
+	@Service
+	@Transactional   
+	public class UserService {....}
+	
+	Khi một phương thức hoặc lớp được đánh dấu bằng @Transactional, Spring sẽ bắt đầu một giao dịch trước khi 
+	phương thức được gọi và commit giao dịch sau khi phương thức hoàn thành (hoặc rollback nếu có lỗi).
+	
+	Lưu ý rằng @Transactional cũng có thể được áp dụng ở cấp controller (nếu bạn sử dụng Spring MVC) 
+	hoặc ở cấp service, repository tùy thuộc vào nơi bạn muốn quản lý giao dịch.
+	
+	
+6==================39. Code User Photos Upload Function=============
+
+6.1:
+	String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+	// cleanPath: Phương thức này được sử dụng để loại bỏ các phần của đường dẫn có thể 
+	// dẫn đến các vấn đề an ninh hoặc truy cập không mong muốn, chẳng hạn như ..
+	// Ví dụ : "/path/to/../file.txt" -> "path/to/file.txt"
+6.2:
+	@Transient    // @Transient được sử dụng để chỉ định rằng một trường hoặc phương thức không nên tham gia quá trình ánh xạ với cơ sở dữ liệu khi sử dụng ORM.
+	public String getPhotoImagePath() {
+		if(id == null || photos == null) return "/images/default-user.png";
+		return "/user-photos/" + this.id + "/" + this.photos;
+	}
+==================
+
+7=================42. Code Pagination for Users List===============
+
+7.1: unless
+
+		<div class="text-center m-1" th:if="${totalItems > 0}">
+			<span>Showing users # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+		</div>
+		
+		<div class="text-center m-1" th:unless="${totalItems > 0}">
+			<span>No users found</span>
+		</div>
+		
+7.2: (Tự làm) tử URL A gửi request -> URL B, tại controller URL B lấy ra request gốc là chuỗi URL A:
+
+		System.out.println(request.getHeader("referer")); // in ra url của request gốc
+		//output: http://localhost:8080/ShopmeAdmin/users/page/2?sortField=firstName&sortDir=asc
+		
+		return "redirect:" + request.getHeader("referer"); 
+		// mục đích: sau khi xử lý enabled xong thì vẫn đứng tại trang đó,
+		// chứ không chạy sang :/users
+==================
+
+8=================45. Code Refactor #1=======================
+THAY VÌ:
+	<th>
+		<a th:if="${sortField != 'id'}" class="text-white"
+			th:href="@{'/users/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">User ID</a>
+
+		<a th:if="${sortField == 'id'}" class="text-white"
+			th:href="@{'/users/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">User ID</a>
+		<span th:if="${sortField == 'id'}"
+			  th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+	</th>
+
+THÌ:
+	- Tạo 1 file chứa fragment có cấu trúc chung:
+	<th th:fragment="column_link(fieldName, columnLabel)">
+		<a class="text-white"
+			th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+			[[${columnLabel}]]
+		</a>
+		<span th:if="${sortField == fieldName}"
+			  th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+	</th>
+	
+	- Trong file users.html ta chỉ cần gọi fragment đó mà truyền đối số vào:
+	<th th:replace="fragments :: column_link('id', 'User ID')"/>
+
+
+9 =================60. Code Logout Function=======================
+9.1:
+Để hiện được tham số logout trên url như :http://localhost:8080/ShopmeAdmin/login?logout
+---> .logout(logout -> logout.permitAll());
+Để trong file thymeleaf ta có thể: 
+		<div th:if="${param.logout}">
+			<p class="text-warning">You have been logged out.</p>
+		</div>
+		
+9.2: Xử lý logout trong spring nên dùng method="post":
+<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+	<input type="submit"/>
+</form>
+
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" data-toggle="dropdown"
+	   sec:authentication="principal.fullname"></a>		
+	<div class="dropdown-menu">
+		<a class="dropdown-item" id="logoutLink" href="">Logout</a>
+	</div>
+</li>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#logoutLink").on("click", function(e){
+			e.preventDefault();
+			document.logoutForm.submit();
+		})
+	});
+</script>
+=======================
+
+
+10=======================64. Code Update Account Details=================
+
+	//@AuthenticationPrincipal là một chú thích Spring Security được sử dụng 
+	//để truy cập thông tin về người dùng đang được xác thực. 
+	//Trong trường hợp này, loggedUser là một đối tượng của lớp ShopmeUserDetails 
+	//(hoặc một lớp được mở rộng từ UserDetails của Spring Security), 
+	//chứa thông tin về người dùng đã đăng nhập.
+	
+	@PostMapping("/account/update")
+	public String updateAcount(User user, RedirectAttributes redirectAttributes,
+							@AuthenticationPrincipal ShopmeUserDetails loggedUser, 
+							@RequestParam("image") MultipartFile multipartFile) throws IOException {......}
+							
+=======================
+
+11======================69. Code User Authorization Basics==============
+
+11.1
+	Difference between hasRole() and hasAuthority():
+		hasRole(): insert ROLE_ automatically.
+		hasAuthority(): no insertion - use the given role name as it is.
+
+11.2 Lấy ra các role của principal:
+	<span sec:authentication="principal.authorities"></span>
+	// Vì trong class ShopmeUserDetails có phương thức getAuthorities()
+
+=======================
