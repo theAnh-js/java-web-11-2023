@@ -229,4 +229,64 @@ THÌ:
 	<span sec:authentication="principal.authorities"></span>
 	// Vì trong class ShopmeUserDetails có phương thức getAuthorities()
 
+11.3 
+	* Để chỉ có người có role là admin mới có thể xem được mục "Users" trên thanh navigation:
+	---> sd: sec:authorize="hasAuthority('Admin')"
+	
+	<li class="nav-item" sec:authorize="hasAuthority('Admin')">
+		<a class="nav-link" th:href="@{/users}">Users</a>
+	</li>
+	
+	* Trường hợp có nhiều role: -> hasAnyAuthority('','','')
+	---> sec:authorize="hasAnyAuthority('Admin', 'Editor')"
+	---> VD: chỉ admin và editor với nhìn thấy được mục Categories
+	<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">		
+	<li class="nav-item">
+		<a class="nav-link" th:href="@{/categories}">Categories</a>
+	</li>
+	</th:block>
+	
 =======================
+
+
+12============= Xóa data của các table ================
+
+		set foreign_key_checks = 0;
+		truncate table users_roles;
+		truncate table users;
+		truncate table roles;
+		
+================
+
+13=============128.Code View Product Details in Modal Dialog=====================
+
+13.1: Loại bỏ raw html(VD: <div>Lenovo - short description</div>): 
+---> dùng utext : <div th:utext="${product.fullDescription}" class="border p-2 m-2"></div>
+
+13.2: Format time trong thymeleaf:
+---> <span th:text="${#dates.format(product.updatedTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+
+13.3: Cài readonly cho checkbox:  dùng onclick="return false;"
+---> <input type="checkbox"  th:checked="${product.enabled}" onclick="return false;">
+
+13.3: cascade = CascadeType.ALL -> all changes to parent(Product) will update children(ProductImage)
+      orphanRemoval = true -> delete children that are no longer referenced by parent.
+
+13.4: Change HTML document dynamically:
+	  element.append(htmlCode) -> append HTML code to an element.
+	  element.remove() -> delete the element from document tree.
+	  
+13.5: Use boolean expression for HTML attribute:
+		th:selected = "${...}"
+		th:readonly = "${...}"
+		th:disabled = "${...}"
+		
+13.6: Expression for authorization: Vd: user có role là Salesperson thì chỉ readonly, không edit/delete được.
+	<div class="col-sm-10">
+		<input type="text" class="form-control" th:field="*{alias}" 
+				minlength="3" maxlength="256"
+				th:readonly="${#authorization.expression('hasAuthority(''Salesperson'')')}"	
+				placeholder="Default is product name(spaces are replaced by dashes)">
+	</div>	
+
+================
